@@ -1,0 +1,204 @@
+- bản chất của 1 component là 1 function
+========== ==========
+.jsx => code javascript với React
+.tsx => code typescript với React
+.js => file javascript thông thường
+.ts => file typescript thông thường
+
+
+jsx sẽ giúp convert code viết bên trong js về html
+Example:
+    // jsx: html + js => 1 block
+    return (
+        <div>
+            Truong component 
+        </div>
+    )
+
+----- tsx báo lỗi cực kì chuẩn hơn so với jsx
+----- biến object không được React render ra giao diện
+
+TODO:========== props ==========
+Props là cách thức các component giao tiếp với nhau, giúp component cha truyền dữ
+liệu xuống component con
+
+-> props được truyền là object dạng {key: value}
+
+FIXME: bản chất của typescript là javascript nhưng được gợi ý code và check code đúng hay sai?.
+Kiểm tra dữ liệu props được truyền từ cha sang con
+
+----- render là quá trình 'vẽ' ra màn hình (hiển thị ra màn hình)
+-> re-render là 'vẽ' lại giao diện sau khi giao diện tồn tại rồi (cập nhật lại giao diện)
+-> thay đổi props làm giao diện tự động cập nhật
+
+----- Để sử dụng vòng lặp với React bên trong JSX, chúng ta sử dụng map (thay vì for, while)
+Sử dụng map, thay vì vòng lặp for, hay while (do while) trong JSX vì:
+    - Vòng lặp map “trả ra” một mảng mới, không làm ảnh hưởng tới giá trị cũ
+    - Sử dụng for, hay while, chỉ đơn thuần là “kiểm tra các phần tử”, không tạo ra
+    mảng mới (data mới), và có thể làm ảnh hưởng tới giá trị cũ
+=> Nguyên tắc đơn giản với JSX của React, là dùng map để lặp các phần tử
+(thay vì for, while)
+
+----- Sử dụng arrow function giúp tránh các lỗi sai không cần thiết, đồng thời giúp hiệu
+năng cao hơn. 
+
+TODO:========== Hook ==========
+
+----- State: bản chất là 1 bộ nhớ của 1 component
+1. Khi cách dùng thông thường là chưa đủ
+- Thay đổi biến => giá trị được thay đổi => nhưng giao diện không đổi (không re-render)
+- Ví dụ: tạo global vars => update
+2. Ví dụ về state
+- State (trạng thái), dùng để hiển thị "trạng thái" của component
+- State là 1 biến đặc biệt (chỉ React hiểu nó), không share giữa các component (nghĩa là,
+phạm vi của nó là local)
+- State thay đổi => giao diện thay đổi (re-render) 
+
+----- Hook(móc nối): là cách React có thể tương tác với component (function) 
+
+TODO:========== Vòng đời của component ==========
+Component là "smart object". không "dump"/ngu ngốc như html.
+Tương tự như "sinh vật", component có vòng đời của nó (life cycle)
+
+Vòng đời gồm: sinh ra => lớn lên => die
+
+Mounting (born) : được sinh ra -> chèn html vào giao diện (cây DOM)
+Update: cập nhật giao diện sau khi đã có cây DOM
+Unmounting (die): xóa html khỏi cây DOM
+
+Component thể hiện vòng đời, thông qua props và state (vì state và props, giúp "hiển thị"
+dữ liệu của component)
+=> props/state thay đổi => giao diện auto re-render
+
+TODO:========== MongoDB ==========
+username: quangtruong200210
+password: quangtruong24102002
+mongodb+srv://quangtruong200210:quangtruong24102002@cluster0.tpw3v94.mongodb.net/
+
+TODO:========== React Router ==========
+được sử dụng để điều hướng trang mà không cần reload trang web.
+-----Thư viện: react-router-dom
+
+TODO:========== useEffect ==========
+tượng trưng cho giai đoạn update component (tương tự API), useEffect chạy sau khi giao diện 
+đã render tránh TH bị lỗi khi update mà giao diện chưa render xong?
+
+useEffect(()=>{}, [Dependency]) #67
+--> nếu không truyền gì vào Dependency trong hàm useEffect thì nó chỉ chạy 1 lần update duy nhất 
+ngay khi giao diện render ra, nhưng nếu thêm biến ở trong hàm useEffect vào thì nó sẽ theo dõi 
+biến đó -> nếu biến đó được cập nhật hay thay đổi thì useEffect sẽ được chạy lại để 
+update dữ liệu
+!!! hàm useEffect chỉ chạy khi dataUpdate thay đổi (nghĩa là nếu ấn lần 1 -> hiển thị dữ liệu,
+ấn lần 2 -> không hiển thị dữ liệu do dữ liệu không có sự thay đổi)
+
+TODO:========== Sử dụng Fetch để lấy dữ liệu API ==========
+--> Lấy dữ liệu từ API về
+const res1 = await fetch("http://localhost:8000/api/v1/users/all", {
+      method: "GET",
+      headers: {
+        --> yêu cầu token mới cho phép truy cập lấy dữ liệu
+        Authorization: `Bearer ${access_token}`,
+        "Content-Type": "application/json",
+      },
+    });
+--> Chuyển đổi dữ liệu từ dạng json sang javascript để đọc
+const data1 = await res1.json();
+
+--> Lấy dữ liệu từ API về
+const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: "admin@gmail.com",
+        password: "123456",
+      }),
+    });
+const data = await res.json();
+--> data có trả về một access_token dùng để truy cập các dữ liệu khác
+
+FIXME: Nếu hiển thị lỗi 401 Unauthorized ở API -> có thể lỗi do hết hạn access_token
+-> quay lại API để lấy lại access_token ở POST MAN và sửa lại access_token ở code
+
+TODO:========== Nested routes ========== #58
+Cách sử dụng để cùng nhau kế thừa layout nào đó (bên trong đó có chứa 1 component đặc biệt là
+<Outlet/> do react-router cung cấp. Mỗi 1 lần vào 1 thằng con thì component con sẽ tự động thay thế
+cho component <Outlet/>)
+-----Thư viện: react-router-dom
+
+TODO:========== Table trong Ant design ========== #61
+Note:
+      <Table columns={columns} dataSource={listUsers} />
+    + tự động mapping dữ liệu trong dataSource
+    + định nghĩa colums để hiển thị tiêu đề và nguồn lấy dữ liệu
+
+    const columns: ColumnsType<IUsers> = [
+    {
+      title: "Email",
+      dataIndex: "email",
+      render: (value, record) => {
+        return <a href="">{value}</a>;
+      },
+    },
+  ];
+    + dataIndex dùng để lấy dữ liệu trong dataSource (tự động mapping lấy mà không cần dùng hàm map)
+    + <IUsers>: định nghĩa kiểu dáng dữ liệu có trong đối tượng (cụ thể là khai báo kiểu dữ 
+    liệu có trong dataSource)
+    + render: điều chỉnh hiển thị -> return sẽ trả về hiển thị mong muốn (ở đây là 1 thẻ a)
+    + value: giá trị hiện tại của email (tất cả các email)
+    + record: giá trị của dataSource (tất cả dữ liệu dataSource)
+
+TODO:========== 1 số thuật ngữ được nhắc tới ========== #67
+Promise, JSON, JSON.stringify, JSON.parse, generic type
+
+
+Không bao h gọi một cái funtion state (setState) ngay ngoài hàm, chỉ gọi bên trong funtion
+
+TODO:========== Pagination ========== #71
+1. What/Why ?
+Pagination (phân trang) là việc chia nhỏ dữ liệu theo từng page (trang).
+Ví dụ = cách search google,
+kết quả tìm kiếm sẽ được chia ra làm page 1, page 2, ..., page n
+Why ?
+Cần phân trang dữ liệu vì:
+- Tại 1 thời điểm, user chỉ có thể "nhìn thấy 1 lượng nhỏ data, mà không nhìn thấy tất cả",
+ví dụ 10, 20 kết quả tìm kiếm
+- Nếu load tất cả data, càng nhiều data, tốc độ load sẽ càng chậm (hình dung việc
+download file, file càng nặng,
+thời gian chờ đợi càng lâu, và ngược lại)
+=> việc phân trang giúp tăng trải nghiệm của người dùng, tức là "load dữ liệu đủ dùng",
+không thừa thãi.
+2. Nguyên tắc khi phân trang
+- Trong thực tế, việc phân trang kết quả, backend làm, frontend chỉ sử dụng (cung cấp
+thông tin cần thiết cho backend)
+- Tuy nhiên, frontend cần hiểu "nguyên tắc phân trang", như vậy phối hợp với
+backend mới dễ
+3. Cách phân trang
+thông thường, frontend sẽ truyền lên 2 tham số:
+- số lượng bản ghi tối đa cần lấy (max/limit) là bao nhiêu => pageSize
+- trang muốn lấy (page)
+
+TODO:========== Local storage ==========
+dùng để lưu trữ thông tin vào bên trong trình duyệt -> dùng LocalStorage ở đây để lưu trữ
+access_token mỗi khi load lại trang
+----- 2 cách dùng chính là getitem và setItem.
+
+TODO:========== Thư viện Ant Form ==========#75
+-> giúp tăng hiệu suất, giao diện không bao h bị re-render giúp web tránh bị giật lag (do state,
+props bị thay đổi)
+không cần sử dụng state, props để quản lý dữ liệu trong form nữa mà thư viện Antd sẽ hỗ trợ công cụ form
+giúp khi submit dữ liệu thì nó sẽ trả ra dữ liệu, để dùng đẩy lên API
+
+
+TODO:========== NextJS ==========#78
+Next.js là framework javascript, tích hợp sẵn React, dùng để build website
+-framework: có nghĩa rằng, nó đã cho sẵn bộ khung và làm sẵn nhiều tính năng, chúng
+ta chỉ dùng thôi
+
+TODO:========== React children ========== #82
+khi truyền một props đặc biệt không phải biến, hàm, ... mà là truyền 1 components với mục đích 
+truyền động data 
+
+React Fragment: '<></>' giúp tránh phá vỡ cấu trúc HTML ban đầu
+Cấu trúc đầy đủ: <Fragment key={id}> được dùng thêm tiền tố key

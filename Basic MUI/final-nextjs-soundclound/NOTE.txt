@@ -1,0 +1,19 @@
+Các công cụ được sử dụng thêm: 
+    - MUI (cũng giống như Ant design đều là các thư viện UI phổ biến)
+        + MUI là 1 thư viện cho phép sử dụng các component được viết sẵn dành cho React
+        + Phong cách design của MUI bị ảnh hưởng bởi Google's Material Design (giao diện
+        sam same)
+        
+TODO:========== NextJS ==========#78
+Next.js là framework javascript, tích hợp sẵn React, dùng để build website
+-framework: có nghĩa rằng, nó đã cho sẵn bộ khung và làm sẵn nhiều tính năng, chúng
+ta chỉ dùng thôi
+
+TODO:========== Routing với nextJS ==========#86
+1. Khai báo route
+- Nextjs sử dụng "tên thư mục" (folder) để định nghĩa route
+=> tạo thêm folder bên trong thư mục "app"
+
+2. File conventions
+layout: share layout giữa các page con.
+page: định nghĩa giao diện cho page

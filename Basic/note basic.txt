@@ -1,0 +1,36 @@
+========== Destructering assignment ==========
+1. Object destructering
+2. Array destructuring
+
+========== Spread syntax ==========
+Example:
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [...arr1, 6];
+console.log(arr2); // 1, 2, 3, 4, 5, 6
+
+FIXME: Một số thuật ngữ liên quan shallow copy và deep copy
+
+-> Tránh sử dụng các array và object lồng nhau có thể gây ra lỗi
+
+----- Nested object: object lồng object
+
+
+========== Conditional Operator ==========
+condition ? exprlfTrue : exprlfFalse
+
+========== Optional Chaining ==========
+né lỗi: chạy code bỏ qua lỗi, có lỗi sẽ không hiện đồng thời sẽ hiện thị ra undefind
+
+" ?. "
+----- Trả về giá trị mặc định nếu lỗi
+Example:
+const x = {
+  name: "Alice",
+  cat: {
+    name: "Eric",
+  },
+};
+console.log("check name = ", x?.dog?.name ?? "hoi dan it");
+
+=> x?.dog?.name không tồn tại sinh ra lỗi -> giá trị trả về "hoi dan it" 
+(nếu không lỗi thì vẫn trả về giá trị "Eric")
