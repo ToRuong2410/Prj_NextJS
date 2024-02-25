@@ -1,4 +1,4 @@
-Các công cụ được sử dụng thêm: 
+FIXME:Các công cụ được sử dụng thêm: 
     - MUI (cũng giống như Ant design đều là các thư viện UI phổ biến)
         + MUI là 1 thư viện cho phép sử dụng các component được viết sẵn dành cho React
         + Phong cách design của MUI bị ảnh hưởng bởi Google's Material Design (giao diện
@@ -17,3 +17,175 @@ TODO:========== Routing với nextJS ==========#86
 2. File conventions
 layout: share layout giữa các page con.
 page: định nghĩa giao diện cho page
+
+Những cách sử dụng chính:
+Using the <Link> Component
+Using the useRouter hook (Client Components)
+Using the redirect function (Server Components)
+
+TODO:========== Sever Component và Client Component ==========#93+94
+--- Sever Component 
+Mặc định, tất cả “component” của Nextjs, là Server Component
+Server Component chỉ đơn thuần là HTML (không có sự tương tác của Javascript)
+=> không dùng các function xử lý sự kiện hay các hook của React
+    Lợi ích của server component:
+        + Tốc độ load page nhanh
+        + Cache
+        + Security
+        + SEO
+Server component có thể bọc “Client component”
+
+--- Client component
+Cần có sự tương tác => sử dụng client component
+Ví dụ: useState, useEffect…
+
+TODO:========== 'use client' ==========#96
+'use client' là một cái tag giúp báo với NextJS là đang sử dụng Client component #96
+Server component: render 100% trên server, tạo ra file HTML gửi về cho client.
+Client chỉ việc hiển thị mà không cần làm gì khác.
+=> hiểu đơn giản là SSR (server side rendering), so sánh với CSR (client side rendering)
+khi dùng với React thuần (Vite)
+Client component: render ở phía client liệu có chính xác ?
+- Giúp có sự tương tác với website
+- Tương tác với browser API, ví dụ localStorage, windows…
+- Để sử dụng client component, cần sử dụng “use-client”
+1.Use-client
+    Use client, không có nghĩa là 100% component sẽ được render ở phía client (như
+    client side rendering)
+    Nhiệm vụ của Nextjs là pre-render trước khi gửi về cho client.
+
+Mô hình khi sử dụng use-client:
+    Phase 1: pre-render
+        Nextjs sẽ tạo trước file html mà không có sự tương tác của HTML, sau đấy gửi về client
+        (như vậy được ½ quá trình)
+    Phase 2: hidrate
+        Client nhận về file HTML đã được render trước từ Nextjs, sau đấy dùng React để thêm
+        phần tương tác Javascript
+
+FIXME: Các thư viện cài thêm: 
+npm i --save-exact react-slick@0.29.0 slick-carousel@1.8.1
+npm i --save-dev @types/react-slick
+npm i --save-exact react-h5-audio-player@3.8.6
+
+TODO:========== Nextjs Environment Variables ==========#99
+    1. Mặc định, nextjs đã support .env => không cần cài đặt thêm thư viện nào khác
+Tạo file .env ở root folder
+Với môi trường development => .env.local / .env.development
+môi trường production => .env.production
+=> không quan tâm về môi trường => .env
+
+Lưu ý về môi trường browser và server:
+https://nextjs.org/docs/app/building-your-application/configuring/environmentvariables#bundling-environment-variables-for-the-browser
+
+=> những tham số nào chạy ở browser => thêm tiền tố NEXT_PUBLIC_(dùng để chạy ở client)
+
+    2. Áp dụng
+Tạo .env cho url backend
+
+TODO:========== Fetch data với NextJS ==========#101
+    1. Hiểu về Next.js
+Node.js là môi trường thực thi javascript.
+javascript có thể chạy tại client hoặc server
+client: browser
+server: các máy chủ
+Nextjs = code javascript chạy tại server đồng thời code js gửi về cho client
+    2. Fetch Data
+Whenever possible, we recommend fetching data on the server
+=> Nếu có thể, ưu tiên fetch data trên server
+
+Với Nextjs, có 2 cách fetch data:
+    1. Fetch data trên server (logic fetch data chạy tại server) (Server side rendering)
+    => sử dụng được cách này, vì server có khả năng kết nối tới database
+    2. Fetch data tại browser (sử dụng tại useEffect, mô hình Client side rendering)
+    Tại client, không thể viết code như cách fetch trên server, vì môi trường chạy code
+    là browser => bắt buộc viết trong hàm useEffect (khi DOM đã sẵn sàng)
+
+--- Tối ưu: sử dụng wrapper(giống như 1 Container-thùng chứa viết 1 lớp tổng quát sau đó
+truyền các func xuống -> giúp viết code đơn giản hơn) #103
+
+FIXME: Các thư viện cài thêm: 
+npm i --save-exact query-string@8.1.0
+
+--- Generic type: 1 kiểu định dạng dữ liệu
+T là định dạng dữ liệu muốn truyền vào cùng như trả về (hoặc dùng để ép kiểu)
+        Cách sử dụng: 
+        let getType = <T>( a: T, b: T ): [ T, T ] => { ... }
+        function getType<T>(a : T, b : T ){
+            return ...
+        }
+
+TODO:========== Dynamic Route ==========#105
+lấy đường link động 
+-> truy cập linh động (như đường link bài hát do có nhiều bài hát - mỗi bài yêu cầu
+1 đường link khác nhau -> nhằm hiển thị nội dung khác nhau)
+
+useSearchParams(): lấy thông tin đường link url 
+
+FIXME:
+npm i --save-exact wavesurfer.js@7.3.1
+
+FIXME:
+Việc hàm hook useEffect chạy 2 lần mà trong khi dependencies = []
+    1.Lỗi trong mã JavaScript hoặc React: Đôi khi, việc sử dụng hooks và lifecycle methods có 
+    thể dẫn đến các hành vi không mong muốn do lỗi trong mã. Kiểm tra lại mã của bạn để đảm bảo
+    không có lỗi nào xảy ra.
+
+    2.Rendering hai lần: Đôi khi, component có thể được render hai lần với một khoảng thời gian 
+    ngắn. Điều này có thể xảy ra trong một số trường hợp như khi một component cha render lại, 
+    component con cũng sẽ render lại. Trong trường hợp này, useEffect sẽ chạy một lần cho mỗi 
+    lần render. Bạn có thể kiểm tra lại xem component của bạn có được render hai lần không.
+
+    3.Development Environment: Trong môi trường phát triển (development environment), React có 
+    thể chạy một số lượt kiểm tra để đảm bảo tính đúng đắn của ứng dụng. Điều này có thể dẫn 
+    đến việc gọi các hooks nhiều lần một cách tạm thời. Tuy nhiên, trong môi trường production, 
+    điều này sẽ không xảy ra.
+
+TODO:========== React ref ==========#110
+    Lý do: Gần như không bao h sử dụng id trong react (việc trùng id có thể xảy ra -> thao tác 
+    với id không chính xác nữa) / sử dụng thay cho getElemntBy...
+
+useRef là một hook trong React được sử dụng để lưu trữ và truy cập đến một biến có thể thay 
+đổi giữa các lần render của component mà không gây ra việc render lại component đó. useRef 
+cung cấp một cách để thực hiện các tác vụ như lưu trữ tham chiếu đến các phần tử DOM, 
+lưu trữ dữ liệu có thể thay đổi mà không gây ra việc re-render, hoặc thậm chí lưu trữ 
+giá trị của một biến trong toàn bộ vòng đời của component.
+
+TODO:========== Fetch track from Remote url ==========#111
+    1. CORS là gì ?
+CORS === Cross-Origin Resource Sharing
+CORS là cơ chế "mặc định" của trình duyệt web (browser) khi gọi/truy cập thông tin khác
+tên miền (domain) -> tránh truy cập các tài nguyên của của domain khác vô tội vạ
+    Ví dụ: từ google.com gọi sang facebook.com -> browser chặn CORS
+    từ localhost:3000 -> gọi localhost:8000 -> chặn CORS
+Why ?
+Với browser, khi bạn truy cập/gọi tới 1 website bất kỳ, browser sẽ tự động gửi cookies
+kèm theo
+Browser có cookies, nên nếu không chặn CORS, sẽ tìm ẩn nguy cơ ăn trộm cookies
+
+    2. Cách khắc phục CORS ?
+- Nếu bạn sử dụng cơ chế client (browser) -> gọi Server để lấy dữ liệu, fix lỗi CORS
+trên server
+- Nếu bạn không code backend, có thể fix = cách disable cors của browser (NOT
+recommended)
+- Sử dụng same domain, hoặc server gọi tới server
+Mô hình:
+    Nextjs (client) -> gọi tới Nextjs (server) : không bị CORS do cùng domain
+    (localhost:3000)
+    Nextjs (server) -> gọi tới Backend
+    Nextjs (server) trả kết quả cho Nextjs (client)
+
+TODO:========== Tạo wavesurfer hook ==========#112
+Tại sao cần tạo wavesurfer Hook?
+- Mục đích: truy cập tới instance của wavesurfer
+Nhờ có instance (đối tượng), chúng ta có thể thao tác được các functions mà thư viện
+cung cấp mọi lúc, mọi nơi
+
+TODO:========== use Memo ==========#113
+dùng để lưu trữ lại một giá trị -> biến số sẽ không bị re-render lại 
+
+sử dụng useMemo => tránh re-render không cần thiết
+
+trong 1 component chứa các phần tử(A B C D) -> khi 1 trong 4 cái re-render dẫn đến tất cả bị
+re-render lại (do dùng hook), khi không muốn phần tử nào re-render lại thì sử dụng useMemo
+
+FIXME: typescript Omit type

@@ -20,6 +20,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // styled-components
 const Search = styled("div")(({ theme }) => ({
@@ -64,6 +65,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  // dùng để điều hướng trang -> sử dụng hook trong NextJS là: useRouter
+  const router = useRouter();
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -172,6 +176,11 @@ export default function AppHeader() {
     </Menu>
   );
 
+  // dùng để điều hướng đến trang Home
+  const handleRedirectHome = () => {
+    router.push("/");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: "#3c4c5c" }}>
@@ -181,7 +190,10 @@ export default function AppHeader() {
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: "none", sm: "block" } }}
+              sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
+              onClick={() => {
+                handleRedirectHome();
+              }}
             >
               Sound Clound
             </Typography>

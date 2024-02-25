@@ -110,6 +110,7 @@ const res = await fetch("http://localhost:8000/api/v1/auth/login", {
       headers: {
         "Content-Type": "application/json",
       },
+      --> JSON.stringify() trong JavaScript được sử dụng để chuyển đổi một đối tượng JavaScript thành một chuỗi JSON. Mục đích chính của nó là đảm bảo rằng dữ liệu có thể được truyền đi hoặc lưu trữ dưới dạng một chuỗi JSON.
       body: JSON.stringify({
         username: "admin@gmail.com",
         password: "123456",
@@ -120,6 +121,13 @@ const data = await res.json();
 
 FIXME: Nếu hiển thị lỗi 401 Unauthorized ở API -> có thể lỗi do hết hạn access_token
 -> quay lại API để lấy lại access_token ở POST MAN và sửa lại access_token ở code
+
+
+---Trong đoạn mã JavaScript bạn cung cấp, async và await được sử dụng để xử lý các hoạt động bất đồng bộ một cách đồng bộ và đơn giản hóa mã nguồn.
+
+	1. async: Khai báo một hàm là bất đồng bộ (asynchronous). Khi một hàm được đánh dấu bằng từ khóa async, nó sẽ trả về một Promise. Trong trường hợp này, hàm onFinish được khai báo là bất đồng bộ.
+
+	2. await: Được sử dụng bên trong một hàm bất đồng bộ để chờ một Promise được giải quyết (resolved) hoặc bị từ chối (rejected). Khi await được sử dụng, nó dừng thực thi của hàm bất đồng bộ cho đến khi Promise được giải quyết và trả về kết quả.
 
 TODO:========== Nested routes ========== #58
 Cách sử dụng để cùng nhau kế thừa layout nào đó (bên trong đó có chứa 1 component đặc biệt là
