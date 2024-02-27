@@ -11,16 +11,17 @@ export const useHasMounted = () => {
 };
 
 import WaveSurfer, { WaveSurferOptions } from "wavesurfer.js";
-// WaveSurfer hook
+// WaveSurfer hook -> Hiển thị giao diện sóng(wave) bài hát
 export const useWavesurfer = (
   containerRef: React.RefObject<HTMLDivElement>,
   options: Omit<WaveSurferOptions, "container">
 ) => {
-  const [wavesurfer, setWavesurfer] = useState<any>(null);
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // tạo sóng(wave)
     const ws = WaveSurfer.create({
       ...options,
       container: containerRef.current,

@@ -189,3 +189,21 @@ trong 1 component chứa các phần tử(A B C D) -> khi 1 trong 4 cái re-rend
 re-render lại (do dùng hook), khi không muốn phần tử nào re-render lại thì sử dụng useMemo
 
 FIXME: typescript Omit type
+
+TODO:========== use Callback ==========#114
+tương tự như hàm useMemo, không chạy lại khối code nếu như biến số không thay đổi 
+
+Cả useMemo và useCallback đều là hooks trong React được sử dụng để tối ưu hóa hiệu suất của 
+ứng dụng bằng cách tránh việc tính toán không cần thiết hoặc tạo ra các hàm callback mới mỗi 
+khi component render lại. Tuy nhiên, chúng có một số điểm khác biệt quan trọng:
+
+    useMemo: Hook này sử dụng để memoize (lưu trữ kết quả) của một biểu thức, giúp tránh việc 
+    tính toán lại giá trị đó trong các lần render sau. Khi giá trị dependencies (các phụ thuộc) của 
+    useMemo thay đổi, nó sẽ tính toán lại giá trị và trả về kết quả mới.
+
+    useCallback: Hook này được sử dụng để memoize (lưu trữ) một hàm callback, giúp tránh việc 
+    tạo ra các hàm mới mỗi khi component render lại, đặc biệt hữu ích khi truyền hàm callback này 
+    xuống các component con. useCallback trả về một phiên bản mới của hàm callback chỉ khi 
+    dependencies thay đổi.
+FIXME:
+npm i --save-exact sass@1.67.0

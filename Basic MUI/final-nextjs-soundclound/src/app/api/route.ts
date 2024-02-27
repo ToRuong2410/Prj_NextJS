@@ -11,8 +11,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
   const searchParams = new URLSearchParams(url.search);
   const fileName = searchParams.get("audio");
 
-  console.log(">>>check>>>", request);
-
   //   GET: đường link tới Backend
   return await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/tracks/${fileName}`
