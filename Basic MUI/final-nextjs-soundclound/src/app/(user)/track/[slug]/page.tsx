@@ -13,7 +13,6 @@ const DetailTrackPage = (props: any) => {
 
   return (
     <Container>
-      My Post: {params.slug}
       <div>
         <WaveTrack />
       </div>

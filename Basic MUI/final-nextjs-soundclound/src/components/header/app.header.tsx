@@ -21,6 +21,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 // styled-components
 const Search = styled("div")(({ theme }) => ({
@@ -65,6 +66,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  const { data: session } = useSession();
+  // console.log(">>> checck data:", session);
+
   // dùng để điều hướng trang -> sử dụng hook trong NextJS là: useRouter
   const router = useRouter();
 
@@ -112,13 +116,14 @@ export default function AppHeader() {
           Profile
         </Link>
       </MenuItem>
-      <MenuItem>
-        <Link
-          href={"/logout"}
-          style={{ color: "unset", textDecoration: "none" }}
-        >
-          Logout
-        </Link>
+      <MenuItem
+        style={{ color: "unset", textDecoration: "none" }}
+        onClick={() => {
+          handleMenuClose();
+          signOut();
+        }}
+      >
+        Logout
       </MenuItem>
     </Menu>
   );
@@ -195,7 +200,7 @@ export default function AppHeader() {
                 handleRedirectHome();
               }}
             >
-              Sound Clound
+              Sound Cloud
             </Typography>
             <Search>
               <SearchIconWrapper>
@@ -217,10 +222,19 @@ export default function AppHeader() {
                 "> a": { color: "unset", textDecoration: "none" },
               }}
             >
-              <Link href={"/playlist"}>Playlist</Link>
-              <Link href={"/like"}>Likes</Link>
-              <span>Upload</span>
-              <Avatar onClick={handleProfileMenuOpen}>QT</Avatar>
+              {/* Kiểm tra xem có thông tin người dùng chưa */}
+              {session ? (
+                <>
+                  <Link href={"/playlist"}>Playlist</Link>
+                  <Link href={"/like"}>Likes</Link>
+                  <span>Upload</span>
+                  <Avatar onClick={handleProfileMenuOpen}>QT</Avatar>
+                </>
+              ) : (
+                <>
+                  <Link href={"/auth/signin"}>Login</Link>
+                </>
+              )}
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton

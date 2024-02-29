@@ -5,6 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { useRef, useMemo, useCallback, useState, useEffect } from "react";
 import { WaveSurferOptions } from "wavesurfer.js";
 import "./wave.scss";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import { Tooltip } from "@mui/material";
 
 // Hiển thị lên màn hình giao diện sóng(wave) bài hát
 const WaveTrack = () => {
@@ -29,7 +32,7 @@ const WaveTrack = () => {
       const ctx = canvas.getContext("2d")!; // thêm dấu ! ở cuối để báo rằng biến này chắc chắn không bằng null hoặc undefined
 
       // Define the waveform gradient
-      gradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 1.15);
+      gradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 1.35);
       gradient.addColorStop(0, "#656666"); // Top color
       gradient.addColorStop((canvas.height * 0.7) / canvas.height, "#656666"); // Top color
       gradient.addColorStop(
@@ -51,8 +54,8 @@ const WaveTrack = () => {
         0,
         0,
         0,
-        canvas.height * 1.15
-      )!;
+        canvas.height * 1.35
+      );
       progressGradient.addColorStop(0, "#EE772F"); // Top color
       progressGradient.addColorStop(
         (canvas.height * 0.7) / canvas.height,
@@ -73,8 +76,8 @@ const WaveTrack = () => {
       progressGradient.addColorStop(1, "#F6B094"); // Bottom color
     }
     return {
-      height: 150,
-      barWidth: 2,
+      height: 100,
+      barWidth: 3,
       waveColor: gradient,
       progressColor: progressGradient,
       url: `/api?audio=${fileName}`, // đường dẫn để tải tệp audio tương ứng với API
@@ -133,6 +136,9 @@ const WaveTrack = () => {
         "timeupdate",
         (currentTime) => (timeEl.textContent = formatTime(currentTime))
       ),
+      wavesurfer.once("interaction", () => {
+        wavesurfer.play();
+      }),
     ];
     return () => {
       subscription.forEach((unsub) => unsub());
@@ -154,20 +160,173 @@ const WaveTrack = () => {
     return `${minutes}:${paddedSeconds}`;
   };
 
+  // fake cmt
+  const arrComments = [
+    {
+      id: 1,
+      avatar: "http://localhost:8000/images/chill1.png",
+      moment: 10,
+      user: "username 1",
+      content: "just a comment 1",
+    },
+    {
+      id: 2,
+      avatar: "http://localhost:8000/images/chill1.png",
+      moment: 30,
+      user: "username 2",
+      content: "just a comment 2",
+    },
+    {
+      id: 3,
+      avatar: "http://localhost:8000/images/chill1.png",
+      moment: 50,
+      user: "username 3",
+      content: "just a comment 3",
+    },
+  ];
+
+  // Tính toán % để hiện thị hình ảnh cmt
+  const calLeft = (moment: number) => {
+    const hardCodeDuration = 199;
+    const percent = (moment / hardCodeDuration) * 100;
+    return `${percent}%`;
+  };
+
   return (
-    <div style={{ top: "100px" }}>
-      <div ref={containerRef} className="wave-form-container">
-        <div className="time" ref={timeRef}>
-          0:00
+    <div style={{ marginTop: 20 }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 15,
+          padding: 20,
+          height: 400,
+          background:
+            "linear-gradient(135deg, rgb(106,112,67) 0%, rgb(11,15,20) 100%)",
+        }}
+      >
+        {/* Hiển thị thông tin bài hát */}
+        <div
+          className="left"
+          style={{
+            width: "75%",
+            height: "calc(100% - 10px)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <div className="info" style={{ display: "flex" }}>
+            <div>
+              <div
+                onClick={() => onPlayClick()}
+                style={{
+                  borderRadius: "50%",
+                  background: "#f50",
+                  height: "50px",
+                  width: "50px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                {isPlaying === true ? (
+                  <PauseIcon sx={{ fontSize: 30, color: "white" }} />
+                ) : (
+                  <PlayArrowIcon sx={{ fontSize: 30, color: "white" }} />
+                )}
+              </div>
+            </div>
+            <div style={{ marginLeft: 20 }}>
+              <div
+                style={{
+                  padding: "0 5px",
+                  background: "#333",
+                  fontSize: 30,
+                  width: "fit-content",
+                  color: "white",
+                }}
+              >
+                This is a Song
+              </div>
+              <div
+                style={{
+                  padding: "0 5px",
+                  marginTop: 10,
+                  background: "#333",
+                  fontSize: 20,
+                  width: "fit-content",
+                  color: "white",
+                }}
+              >
+                Eric
+              </div>
+            </div>
+          </div>
+          <div ref={containerRef} className="wave-form-container">
+            <div className="time" ref={timeRef}>
+              0:00
+            </div>
+            <div className="duration" ref={durationRef}>
+              0:00
+            </div>
+            <div className="hover-wave" ref={hoverRef}></div>
+            <div
+              className="overlay"
+              style={{
+                position: "absolute",
+                height: "30px",
+                width: "100%",
+                bottom: "0",
+                background: "#ccc",
+              }}
+            ></div>
+            <div className="comments" style={{ position: "relative" }}>
+              {arrComments.map((item) => {
+                return (
+                  <Tooltip title={item.content}>
+                    <img
+                      onPointerMove={(e) => {
+                        const hover = hoverRef.current!;
+                        hover.style.width = calLeft(item.moment + 3);
+                      }}
+                      key={item.id}
+                      src="http://localhost:8000/images/chill1.png"
+                      style={{
+                        height: 20,
+                        width: 20,
+                        position: "absolute",
+                        top: 70,
+                        zIndex: 20,
+                        left: calLeft(item.moment),
+                      }}
+                    />
+                  </Tooltip>
+                );
+              })}
+            </div>
+          </div>
         </div>
-        <div className="duration" ref={durationRef}>
-          0:00
+
+        {/* Hiển thị ảnh */}
+        <div
+          className="right"
+          style={{
+            width: "25%",
+            padding: 15,
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              background: "#ccc",
+              width: 250,
+              height: 250,
+            }}
+          ></div>
         </div>
-        <div className="hover-wave" ref={hoverRef}></div>
       </div>
-      <button onClick={onPlayClick}>
-        {isPlaying === true ? "Pause" : "Play"}
-      </button>
     </div>
   );
 };

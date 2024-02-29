@@ -3,7 +3,27 @@ FIXME:Các công cụ được sử dụng thêm:
         + MUI là 1 thư viện cho phép sử dụng các component được viết sẵn dành cho React
         + Phong cách design của MUI bị ảnh hưởng bởi Google's Material Design (giao diện
         sam same)
+
+FIXME:
+----------------------------------------------------------------
+JSON.stringify là một hàm trong JavaScript được sử dụng để chuyển đổi một đối tượng JavaScript sang
+chuỗi JSON. Hàm này nhận vào một đối tượng và trả về một chuỗi JSON tương ứng.
+
+JSON.parse là một hàm trong JavaScript được sử dụng để chuyển đổi một chuỗi JSON thành một đối tượng 
+JavaScript. Hàm này nhận vào một chuỗi JSON và trả về một đối tượng tương ứng.
         
+----------------------------------------------------------------
+nếu 1 hàm là 1 Promise(kiểm tra mã nguồn, ktra tài liều) -> dùng await async có thể lấy được giá 
+trị trả về
+const ham = async() =>{
+    const res = await signIn("credentials", {
+        username: username,
+        password: password,
+        redirect: false,
+    });
+}
+
+
 TODO:========== NextJS ==========#78
 Next.js là framework javascript, tích hợp sẵn React, dùng để build website
 -framework: có nghĩa rằng, nó đã cho sẵn bộ khung và làm sẵn nhiều tính năng, chúng
@@ -180,7 +200,7 @@ Tại sao cần tạo wavesurfer Hook?
 Nhờ có instance (đối tượng), chúng ta có thể thao tác được các functions mà thư viện
 cung cấp mọi lúc, mọi nơi
 
-TODO:========== use Memo ==========#113
+TODO:========== useMemo ==========#113
 dùng để lưu trữ lại một giá trị -> biến số sẽ không bị re-render lại 
 
 sử dụng useMemo => tránh re-render không cần thiết
@@ -190,7 +210,7 @@ re-render lại (do dùng hook), khi không muốn phần tử nào re-render l�
 
 FIXME: typescript Omit type
 
-TODO:========== use Callback ==========#114
+TODO:========== useCallback ==========#114
 tương tự như hàm useMemo, không chạy lại khối code nếu như biến số không thay đổi 
 
 Cả useMemo và useCallback đều là hooks trong React được sử dụng để tối ưu hóa hiệu suất của 
@@ -205,5 +225,32 @@ khi component render lại. Tuy nhiên, chúng có một số điểm khác bi�
     tạo ra các hàm mới mỗi khi component render lại, đặc biệt hữu ích khi truyền hàm callback này 
     xuống các component con. useCallback trả về một phiên bản mới của hàm callback chỉ khi 
     dependencies thay đổi.
+
 FIXME:
 npm i --save-exact sass@1.67.0
+
+TODO:========== Next-auth ========== #125
+Xác thực người dùng với backend và tài khoản mạng xã hội (social media)sử dụng hệ
+thống với Next.JS và Next-auth.
+- Là dự án mã nguồn mở, cung cấp giải pháp authentication cho Next.js app
+- Hỗ trợ cơ chế stateful (session) và stateless (JWT - json web token)
+- An toàn (Security by default)
+
+FIXME:
+npm i --save-exact next-auth@4.23.1
+
+TODO:========== Luồng hoạt động của Next-auth ? ========== #130
+Lưu ý 1: Nextjs với authentication, đang đóng vai trò là backend . Không dùng frontend
+làm authentication (vì dễ bị hack)
+Lưu ý 2: Khi sử dụng Provider, chúng ta đang "không quản lý người dùng", vậy làm sao
+để mỗi lần F5 (refresh), chúng ta biết được ai là người đang đăng nhập ?
+
+..........vẫn còn
+
+TODO:========== useSession ==========
+sử dụng để lấy data session (thông tin được Provider gửi về và lưu tại cookies)
+
+FIXME: thông tin người dùng sau khi đăng nhập ở Provider sẽ được lưu vào bên trong cookies
+-> Quá trình lưu trữ cookies, giải mã cookies sẽ được thư viện NextAuth làm trên phía server, giải mã
+xong sẽ nạp vào trong token -> biết được ai đăng nhập
+
