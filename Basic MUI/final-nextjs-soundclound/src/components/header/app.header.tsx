@@ -67,7 +67,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function AppHeader() {
   const { data: session } = useSession();
-  // console.log(">>> checck data:", session);
+  // console.log(">>> check data:", session);
 
   // dùng để điều hướng trang -> sử dụng hook trong NextJS là: useRouter
   const router = useRouter();
@@ -110,7 +110,7 @@ export default function AppHeader() {
     >
       <MenuItem>
         <Link
-          href={"/profile"}
+          href={`/profile/${session?.user._id}`}
           style={{ color: "unset", textDecoration: "none" }}
         >
           Profile
@@ -227,7 +227,7 @@ export default function AppHeader() {
                 <>
                   <Link href={"/playlist"}>Playlist</Link>
                   <Link href={"/like"}>Likes</Link>
-                  <span>Upload</span>
+                  <Link href={"/track/upload"}>Upload</Link>
                   <Avatar onClick={handleProfileMenuOpen}>QT</Avatar>
                 </>
               ) : (

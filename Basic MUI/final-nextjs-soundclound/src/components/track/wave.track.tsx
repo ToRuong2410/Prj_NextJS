@@ -8,10 +8,18 @@ import "./wave.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import { Tooltip } from "@mui/material";
+import { sendRequest } from "@/utils/api";
+import { useTrackContext } from "@/lib/track.wrapper";
+
+interface IProps {
+  track: ITrackTop | null;
+}
 
 // Hiển thị lên màn hình giao diện sóng(wave) bài hát
-const WaveTrack = () => {
+const WaveTrack = (props: IProps) => {
+  const { track } = props;
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
 
   // lấy tên keyword 'audio' trên link url -> dùng để gửi sang api(route.ts) -> lấy thông tin bài hát từ BE
   const searchParams = useSearchParams();
@@ -85,21 +93,6 @@ const WaveTrack = () => {
   }, []);
 
   const wavesurfer = useWavesurfer(containerRef, optionsMemo);
-
-  // useEffect(() => {
-  //   // console.log(">>> check ref:", containerRef.current);
-  //   if (containerRef.current) {
-  //     const wavesurfer = WaveSurfer.create({
-  //       container: containerRef.current,
-  //       waveColor: "rgb(200, 0, 200)",
-  //       progressColor: "rgb(100, 0, 100)",
-  //       url: `/api?audio=${fileName}`, // đường dẫn để tải tệp audio tương ứng với API
-  //     });
-  //     return () => {
-  //       wavesurfer.destroy();
-  //     };
-  //   }
-  // }, []);
 
   useEffect(() => {
     // Dùng để lấy thời gian
@@ -192,6 +185,28 @@ const WaveTrack = () => {
     return `${percent}%`;
   };
 
+  // theo dõi sự thay đổi để cập nhật lại thông tin play/pause ở wavetrack
+  useEffect(() => {
+    if (track?._id === currentTrack._id && wavesurfer) {
+      if (currentTrack.isPlaying) {
+        wavesurfer.pause();
+      }
+    }
+  }, [currentTrack]);
+
+  // Quản lý play/pause tại phần wavetrack
+  // useEffect(() => {
+  //   if (wavesurfer && currentTrack.isPlaying) {
+  //     wavesurfer.pause();
+  //     console.log("pause current track", currentTrack.isPlaying);
+  //   }
+  // }, [currentTrack]);
+
+  // // Nếu phần footer chưa có thông tin thì cập nhật thông tin khi ấn vào wavetrack
+  useEffect(() => {
+    if (track?._id) setCurrentTrack({ ...track, isPlaying: true });
+  }, [track]);
+
   return (
     <div style={{ marginTop: 20 }}>
       <div
@@ -216,9 +231,20 @@ const WaveTrack = () => {
           }}
         >
           <div className="info" style={{ display: "flex" }}>
+            {/* nút Play/Pause */}
             <div>
               <div
-                onClick={() => onPlayClick()}
+                onClick={() => {
+                  onPlayClick();
+                  if (track && wavesurfer) {
+                    // Cứ ấn vào nút Play/Pause trên wavetrack thì nút play/pause dưới footer sẽ dừng
+                    setCurrentTrack({
+                      ...track,
+                      isPlaying: false,
+                    });
+                    // setCurrentTrack({ ...currentTrack, isPlaying: false });
+                  }
+                }}
                 style={{
                   borderRadius: "50%",
                   background: "#f50",
@@ -237,6 +263,7 @@ const WaveTrack = () => {
                 )}
               </div>
             </div>
+            {/* Thông tin bài hát và tác giả */}
             <div style={{ marginLeft: 20 }}>
               <div
                 style={{
@@ -247,7 +274,7 @@ const WaveTrack = () => {
                   color: "white",
                 }}
               >
-                This is a Song
+                {track?.title}
               </div>
               <div
                 style={{
@@ -259,7 +286,7 @@ const WaveTrack = () => {
                   color: "white",
                 }}
               >
-                Eric
+                {track?.description}
               </div>
             </div>
           </div>
@@ -281,10 +308,11 @@ const WaveTrack = () => {
                 background: "#ccc",
               }}
             ></div>
+            {/* Hiển thị hình ảnh comments */}
             <div className="comments" style={{ position: "relative" }}>
               {arrComments.map((item) => {
                 return (
-                  <Tooltip title={item.content}>
+                  <Tooltip title={item.content} arrow key={item.id}>
                     <img
                       onPointerMove={(e) => {
                         const hover = hoverRef.current!;
@@ -318,13 +346,16 @@ const WaveTrack = () => {
             alignItems: "center",
           }}
         >
-          <div
-            style={{
-              background: "#ccc",
-              width: 250,
-              height: 250,
-            }}
-          ></div>
+          <div>
+            <img
+              style={{
+                background: "#ccc",
+                width: 250,
+                height: 250,
+              }}
+              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
+            />
+          </div>
         </div>
       </div>
     </div>

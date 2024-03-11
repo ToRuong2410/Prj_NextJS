@@ -27,7 +27,7 @@ export default async function HomePage() {
     method: "POST",
     body: {
       category: "CHILL",
-      limit: 10,
+      limit: 20,
     },
   });
 
@@ -36,7 +36,7 @@ export default async function HomePage() {
     method: "POST",
     body: {
       category: "WORKOUT",
-      limit: 10,
+      limit: 20,
     },
   });
 
@@ -45,7 +45,7 @@ export default async function HomePage() {
     method: "POST",
     body: {
       category: "PARTY",
-      limit: 10,
+      limit: 20,
     },
   });
 

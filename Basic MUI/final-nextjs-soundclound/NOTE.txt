@@ -23,6 +23,18 @@ const ham = async() =>{
     });
 }
 
+FIXME: 
+- Toán tử Optional chaining (?.): Toán tử này cho phép truy cập các thuộc tính của một đối tượng mà 
+không lo lắng về việc đối tượng đó có tồn tại hay không. Nếu đối tượng không tồn tại 
+(null hoặc undefined), nó sẽ trả về undefined thay vì gây ra lỗi. Điều này hữu ích khi bạn muốn 
+truy cập một thuộc tính sâu trong một chuỗi các đối tượng mà một hoặc nhiều trong số chúng có thể 
+không tồn tại.
+
+- Toán tử Nullish coalescing (??): Toán tử này được sử dụng để thiết lập một giá trị mặc định cho biến 
+nếu biến đó là null hoặc undefined. Nó trả về giá trị bên phải nếu giá trị bên trái là null hoặc 
+undefined; nếu giá trị bên trái không phải là null hoặc undefined, nó trả về giá trị bên trái. 
+Điều này hữu ích khi bạn muốn thiết lập một giá trị mặc định cho một biến nếu nó không tồn tại 
+hoặc có giá trị là null.
 
 TODO:========== NextJS ==========#78
 Next.js là framework javascript, tích hợp sẵn React, dùng để build website
@@ -208,10 +220,11 @@ sử dụng useMemo => tránh re-render không cần thiết
 trong 1 component chứa các phần tử(A B C D) -> khi 1 trong 4 cái re-render dẫn đến tất cả bị
 re-render lại (do dùng hook), khi không muốn phần tử nào re-render lại thì sử dụng useMemo
 
-FIXME: typescript Omit type
+FIXME: typescript Omit type dùng để bỏ đi một số kiểu type trong interface
+Omit<interface, kiểu type muốn bỏ>  ->  Omit<WaveSurferOptions, "container">
 
 TODO:========== useCallback ==========#114
-tương tự như hàm useMemo, không chạy lại khối code nếu như biến số không thay đổi 
+sử dụng để tránh re-render khi không cần thiết
 
 Cả useMemo và useCallback đều là hooks trong React được sử dụng để tối ưu hóa hiệu suất của 
 ứng dụng bằng cách tránh việc tính toán không cần thiết hoặc tạo ra các hàm callback mới mỗi 
@@ -225,6 +238,18 @@ khi component render lại. Tuy nhiên, chúng có một số điểm khác bi�
     tạo ra các hàm mới mỗi khi component render lại, đặc biệt hữu ích khi truyền hàm callback này 
     xuống các component con. useCallback trả về một phiên bản mới của hàm callback chỉ khi 
     dependencies thay đổi.
+
+        const memoizedCallback = useCallback(
+        () => {
+            // Logic của hàm callback
+        },
+        [dependencies]
+        );
+
+Cách sử dụng tương tự useMemo chi khác 1 chỗ
+useMemo dùng để lưu trữ 1 giá trị còn useCallback dùng để lưu trữ lại một function 
+    1. dependencies = [] -> hook này chỉ chạy render đúng 1 lần
+    2. dependencies = [value] -> hook này chỉ re-render khi giá trị của value thay đổi
 
 FIXME:
 npm i --save-exact sass@1.67.0
@@ -251,6 +276,32 @@ TODO:========== useSession ==========
 sử dụng để lấy data session (thông tin được Provider gửi về và lưu tại cookies)
 
 FIXME: thông tin người dùng sau khi đăng nhập ở Provider sẽ được lưu vào bên trong cookies
--> Quá trình lưu trữ cookies, giải mã cookies sẽ được thư viện NextAuth làm trên phía server, giải mã
-xong sẽ nạp vào trong token -> biết được ai đăng nhập
+-> Quá trình lưu trữ cookies, giải mã cookies sẽ được thư viện NextAuth làm trên phía server,
+giải mã xong sẽ nạp vào trong token -> biết được ai đăng nhập
 
+FIXME: npm i --save-exact react-dropzone@14.2.3 axios@1.5.0
+
+TODO: ========== Axios ==========
+dùng để load % upload
+
+TODO: ========== Quản lý các React State Global ========== #158
+(vấn đề gặp phải khi kiểm soát cùng lúc state cùng cấp hoặc các state không liên quan)
+- Một số thư viện nổi tiếng có thể hỗ trợ manage state
+    1. Redux
+    2. React query
+    3. Mobx
+    4. Recoil
+
+Tại sao dùng React Context API: giúp quản lý một vài hoặc nhiều state cùng 1 lúc
+    - Không cần cài đặt thêm thư viện, vì đây là 1 api đã tích hợp sẵn trong React
+    - Dữ liệu lưu trữ là đơn giản => context API giải quyết tốt
+    - Đối với các bài toán phức tạp => sử dụng thư viện để quản lý (management). React
+    context đơn thuần là "sharing" data
+
+Kỹ thuật extend interface (kế thừa lại interface) -> dùng để tránh ảnh hưởng đến code cũ đã kế
+thừa từ interface cũ
+    interface I...new extends I...old {
+        isPlaying: boolean;
+    }
+
+FIXME: bug khi sử dụng "use client" đồng thời sử dụng async (xảy ra tại trang page -> DetailTrackPage)

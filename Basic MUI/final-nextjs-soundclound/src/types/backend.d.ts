@@ -2,6 +2,7 @@ export {};
 // https://bobbyhadz.com/blog/typescript-make-types-global#declare-global-types-in-typescript
 
 declare global {
+  // kiểu type bài nhạc
   interface ITrackTop {
     _id: string;
     title: string;
@@ -23,6 +24,7 @@ declare global {
     updatedAt: string;
   }
 
+  // kiểu type dùng để fetch dữ liệu
   interface IRequest {
     url: string;
     method: string;
@@ -33,6 +35,7 @@ declare global {
     nextOption?: any;
   }
 
+  // type của BE
   interface IBackendRes<T> {
     error?: string | string[];
     message: string;
@@ -40,6 +43,8 @@ declare global {
     data?: T;
   }
 
+  // Kiểu type khi giá trị lấy đi hoặc trả về dùng để phân trang, có thể định nghĩa thêm kiểu
+  // type cho result
   interface IModelPaginate<T> {
     meta: {
       current: number;
@@ -48,5 +53,16 @@ declare global {
       total: number;
     };
     result: T[];
+  }
+
+  // kế thừa lại interface ITrackTop
+  interface IShareTrack extends ITrackTop {
+    isPlaying: boolean;
+  }
+
+  // định nghĩa kiểu type cho Context-React
+  interface ITrackContext {
+    currentTrack: IShareTrack;
+    setCurrentTrack: (value: IShareTrack) => void;
   }
 }
