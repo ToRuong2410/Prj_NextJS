@@ -98,7 +98,6 @@ const WaveTrack = (props: IProps) => {
     // Dùng để lấy thời gian
     const timeEl = timeRef.current!;
     const durationEl = durationRef.current!;
-
     // Dùng khi hover bài hát
     const hover = hoverRef.current!;
     const waveform = containerRef.current!;
@@ -186,23 +185,22 @@ const WaveTrack = (props: IProps) => {
   };
 
   // theo dõi sự thay đổi để cập nhật lại thông tin play/pause ở wavetrack
-  useEffect(() => {
-    if (track?._id === currentTrack._id && wavesurfer) {
-      if (currentTrack.isPlaying) {
-        wavesurfer.pause();
-      }
-    }
-  }, [currentTrack]);
-
-  // Quản lý play/pause tại phần wavetrack
   // useEffect(() => {
-  //   if (wavesurfer && currentTrack.isPlaying) {
-  //     wavesurfer.pause();
-  //     console.log("pause current track", currentTrack.isPlaying);
+  //   if (track?._id === currentTrack._id && wavesurfer) {
+  //     if (currentTrack.isPlaying) {
+  //       wavesurfer.pause();
+  //     }
   //   }
   // }, [currentTrack]);
 
-  // // Nếu phần footer chưa có thông tin thì cập nhật thông tin khi ấn vào wavetrack
+  // Theo dõi sự thay đổi để cập nhật lại thông tin play/pause ở wavetrack
+  useEffect(() => {
+    if (wavesurfer && currentTrack.isPlaying) {
+      wavesurfer.pause();
+    }
+  }, [currentTrack]);
+
+  // Nếu phần footer chưa có thông tin thì cập nhật thông tin khi ấn vào wavetrack
   useEffect(() => {
     if (track?._id) setCurrentTrack({ ...track, isPlaying: true });
   }, [track]);

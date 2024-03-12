@@ -8,34 +8,31 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 
 const AppFooter = () => {
+  // Sử dụng useContext để lấy state currentTrack
+  const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
   const hasMounted = useHasMounted();
   // Dùng để lấy phần tử HTML -> useRef()
   const playerRef = useRef(null);
-  // Sử dụng useContext để lấy state currentTrack
-  const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
 
   // console.log(">>> check track context:", currentTrack);
 
-  // useEffect(() => {
-  //   if (currentTrack?.isPlaying === false) {
-  //     console.log("pause");
-  //     //@ts-ignore
-  //     playerRef?.current?.audio?.current?.pause();
-  //   }
-  //   if (currentTrack?.isPlaying === true) {
-  //     console.log("play");
-  //     //@ts-ignore
-  //     playerRef?.current?.audio?.current?.play();
-  //   }
-  // }, [currentTrack]);
+  useEffect(() => {
+    if (currentTrack?.isPlaying) {
+      //@ts-ignore
+      playerRef?.current?.audio?.current?.play();
+    } else {
+      //@ts-ignore
+      playerRef?.current?.audio?.current?.pause();
+    }
+  }, [currentTrack]);
 
-  if (currentTrack?.isPlaying) {
-    //@ts-ignore
-    playerRef?.current?.audio?.current?.play();
-  } else {
-    //@ts-ignore
-    playerRef?.current?.audio?.current?.pause();
-  }
+  // if (currentTrack?.isPlaying) {
+  //   //@ts-ignore
+  //   playerRef?.current?.audio?.current?.play();
+  // } else {
+  //   //@ts-ignore
+  //   playerRef?.current?.audio?.current?.pause();
+  // }
 
   if (!hasMounted) return <></>;
 

@@ -58,18 +58,17 @@ const ProfileTracks = (props: any) => {
               currentTrack.isPlaying === false)) && (
             <IconButton
               aria-label="play/pause"
-              onClick={() => {
+              onClick={(e) => {
                 setCurrentTrack({ ...data, isPlaying: true });
               }}
             >
               <PlayArrowIcon sx={{ height: 38, width: 38 }} />
             </IconButton>
           )}
-
-          {currentTrack.isPlaying === true && data._id === currentTrack._id && (
+          {data._id === currentTrack._id && currentTrack.isPlaying === true && (
             <IconButton
               aria-label="play/pause"
-              onClick={() => {
+              onClick={(e) => {
                 setCurrentTrack({ ...data, isPlaying: false });
               }}
             >
