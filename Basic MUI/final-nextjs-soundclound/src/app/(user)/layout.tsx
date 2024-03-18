@@ -9,6 +9,7 @@ export default function RootLayout(props: ILayout) {
     <>
       <AppHeader />
       {props.children}
+      <div style={{ marginBottom: "100px" }}></div>
       <AppFooter />
     </>
   );

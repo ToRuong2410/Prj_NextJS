@@ -22,6 +22,7 @@ import Avatar from "@mui/material/Avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { fetchDefaultImages } from "@/utils/api";
 
 // styled-components
 const Search = styled("div")(({ theme }) => ({
@@ -228,7 +229,10 @@ export default function AppHeader() {
                   <Link href={"/playlist"}>Playlist</Link>
                   <Link href={"/like"}>Likes</Link>
                   <Link href={"/track/upload"}>Upload</Link>
-                  <Avatar onClick={handleProfileMenuOpen}>QT</Avatar>
+                  <Avatar
+                    onClick={handleProfileMenuOpen}
+                    src={fetchDefaultImages(session.user.type)}
+                  />
                 </>
               ) : (
                 <>

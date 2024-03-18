@@ -65,4 +65,41 @@ declare global {
     currentTrack: IShareTrack;
     setCurrentTrack: (value: IShareTrack) => void;
   }
+
+  // định nghĩa kiểu type cho Comments
+  interface ITrackComment {
+    _id: string;
+    content: string;
+    moment: number;
+    user: {
+      _id: string;
+      email: string;
+      name: string;
+      role: string;
+      type: string;
+    };
+    track: {
+      _id: string;
+      title: string;
+      description: string;
+      trackUrl: string;
+    };
+    isDeleted: false;
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface ITrackLike {
+    _id: string;
+    title: string;
+    description: string;
+    category: string;
+    imgUrl: string;
+    trackUrl: string;
+    countLike: number;
+    countPlay: number;
+    createdAt: string;
+    updatedAt: string;
+  }
 }

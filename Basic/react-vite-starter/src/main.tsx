@@ -14,6 +14,7 @@ import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import "./App.scss";
 import TracksPage from "./screens/tracks.page.tsx";
+import CommentsPage from "./screens/comments.page.tsx";
 
 const items: MenuProps["items"] = [
   {
@@ -29,6 +30,11 @@ const items: MenuProps["items"] = [
   {
     label: <Link to="/tracks">Manage Tracks</Link>,
     key: "tracks",
+    icon: <TeamOutlined />,
+  },
+  {
+    label: <Link to="/comments">Manage Comments</Link>,
+    key: "comments",
     icon: <TeamOutlined />,
   },
 ];
@@ -94,6 +100,10 @@ const router = createBrowserRouter([
       {
         path: "tracks",
         element: <TracksPage />,
+      },
+      {
+        path: "comments",
+        element: <CommentsPage />,
       },
     ],
   },

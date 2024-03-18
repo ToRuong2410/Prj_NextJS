@@ -304,4 +304,16 @@ thừa từ interface cũ
         isPlaying: boolean;
     }
 
-FIXME: bug khi sử dụng "use client" đồng thời sử dụng async (xảy ra tại trang page -> DetailTrackPage)
+FIXME: bug khi sử dụng "use client" đồng thời sử dụng async 
+(chỉ xảy ra tại trang page nơi thực hiện SSR -> DetailTrackPage)
+
+FIXME: 
+npm i --save-exact dayjs@1.11.10   #163
+
+TODO: ========== router.refresh() ==========
+
+thực hiện việc làm mới trạng thái của router. Nó làm mới các route hiện tại, làm mới dữ liệu 
+từ các API hoặc làm mới bất kỳ dữ liệu nào liên quan đến routing trong ứng dụng
+=> Việc làm mới router có thể hữu ích trong nhiều tình huống, chẳng hạn như khi cần cập nhật 
+dữ liệu hiển thị trên một trang mà không cần tải lại toàn bộ trang web. Điều này giúp cải thiện 
+trải nghiệm người dùng và giảm thiểu thời gian chờ đợi
