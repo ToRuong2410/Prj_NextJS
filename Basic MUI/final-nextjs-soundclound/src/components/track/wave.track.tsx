@@ -12,6 +12,8 @@ import { fetchDefaultImages, sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
 import CommentTrack from "./comment.track";
 import LikeTrack from "./like.track";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 
 interface IProps {
   track: ITrackTop | null;
@@ -20,6 +22,10 @@ interface IProps {
 
 // Hiển thị lên màn hình giao diện sóng(wave) bài hát
 const WaveTrack = (props: IProps) => {
+  const router = useRouter();
+  // Dùng để người dùng like 1 lần mỗi khi đăng nhập -> nhờ vào việc không bị render lại của useRef
+  const firstViewRef = useRef(true);
+
   const { track, comments } = props;
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const { currentTrack, setCurrentTrack } = useTrackContext() as ITrackContext;
@@ -185,7 +191,21 @@ const WaveTrack = (props: IProps) => {
       setCurrentTrack({ ...track, isPlaying: false });
       // console.log("thay đổi dữ liệu bài nhạc");
     }
-  }, []);
+  }, [track]);
+
+  const handleIncreaseView = async () => {
+    if (firstViewRef.current) {
+      await sendRequest<IBackendRes<IModelPaginate<ITrackLike>>>({
+        url: "http://localhost:8000/api/v1/tracks/increase-view",
+        method: "POST",
+        body: {
+          trackId: track?._id,
+        },
+      });
+      router.refresh();
+      firstViewRef.current = false;
+    }
+  };
 
   return (
     <div style={{ marginTop: 20 }}>
@@ -216,6 +236,7 @@ const WaveTrack = (props: IProps) => {
               <div
                 onClick={() => {
                   onPlayClick();
+                  handleIncreaseView();
                   if (track && wavesurfer) {
                     // Cứ ấn vào nút Play/Pause trên wavetrack thì nút play/pause dưới footer sẽ dừng
                     setCurrentTrack({

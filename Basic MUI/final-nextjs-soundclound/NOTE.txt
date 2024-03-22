@@ -138,13 +138,12 @@ truyền các func xuống -> giúp viết code đơn giản hơn) #103
 FIXME: Các thư viện cài thêm: 
 npm i --save-exact query-string@8.1.0
 
---- Generic type: 1 kiểu định dạng dữ liệu
+TODO: Generic type: 1 kiểu định dạng dữ liệu
 T là định dạng dữ liệu muốn truyền vào cùng như trả về (hoặc dùng để ép kiểu)
         Cách sử dụng: 
-        let getType = <T>( a: T, b: T ): [ T, T ] => { ... }
-        function getType<T>(a : T, b : T ){
-            return ...
-        }
+        function xuly<T>( p1: T): T { return p1; }
+        let hoten = xuly<string>("Trần Nhân Tông"); //Trần Nhân Tông
+        let nam = xuly<number>(1258); //1258
 
 TODO:========== Dynamic Route ==========#105
 lấy đường link động 
@@ -156,7 +155,7 @@ useSearchParams(): lấy thông tin đường link url
 FIXME:
 npm i --save-exact wavesurfer.js@7.3.1
 
-FIXME:
+TODO:========== useEffect ==========
 Việc hàm hook useEffect chạy 2 lần mà trong khi dependencies = []
     1.Lỗi trong mã JavaScript hoặc React: Đôi khi, việc sử dụng hooks và lifecycle methods có 
     thể dẫn đến các hành vi không mong muốn do lỗi trong mã. Kiểm tra lại mã của bạn để đảm bảo
