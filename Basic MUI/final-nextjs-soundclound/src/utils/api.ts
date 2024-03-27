@@ -1,4 +1,5 @@
 import queryString from "query-string";
+import slugify from "slugify";
 
 // props: IRequest -> định nghĩa type (định nghĩa dữ liệu đầu vào)
 // as T: ép kiểu dữ liệu, kiểu T dùng dưới dạng generic(định nghĩa dữ liệu đầu ra)
@@ -87,3 +88,13 @@ export const fetchDefaultImages = (type: string) => {
   if (type === "GOOGLE") return "/user/default-google.png";
   return "/user/default-user.png";
 };
+
+
+export const convertSlugUrl = (str:string) => {
+  if(!str) return "";
+  str = slugify("LE ĐỖ THAY ĐỔI", {
+    lower: true,
+    locale: "vi",
+  })
+  return str;
+}

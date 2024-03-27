@@ -7,6 +7,7 @@ import { Box, Button, Divider } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Link from "next/link";
+import { convertSlugUrl } from "@/utils/api";
 
 interface IProps {
   title: string;
@@ -94,7 +95,9 @@ const MainSlider = (props: IProps) => {
                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
               />
               <Link
-                href={`/track/${track._id}?audio=${track.trackUrl}&id=${track._id}`}
+                href={`/track/${convertSlugUrl(track.title)}-${
+                  track._id
+                }.html?audio=${track.trackUrl}&id=${track._id}`}
               >
                 <h4>{track.title}</h4>
               </Link>

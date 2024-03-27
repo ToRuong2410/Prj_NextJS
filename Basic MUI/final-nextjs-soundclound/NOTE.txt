@@ -316,3 +316,59 @@ từ các API hoặc làm mới bất kỳ dữ liệu nào liên quan đến ro
 => Việc làm mới router có thể hữu ích trong nhiều tình huống, chẳng hạn như khi cần cập nhật 
 dữ liệu hiển thị trên một trang mà không cần tải lại toàn bộ trang web. Điều này giúp cải thiện 
 trải nghiệm người dùng và giảm thiểu thời gian chờ đợi
+
+TODO: ========== Metadata - SEO ========== #169
+Next.js cung cấp các API về Metadata, giúp chúng ta có thể cải thiện SEO cũng như khả
+năng chia sẻ website (qua các mạng xã hội)
+-> title thay đổi linh hoạt
+
+Các kỹ thuật tối ưu hóa SEO cơ bản bao gồm:
+    1.Thêm tiêu đề, miêu tả cho web page
+    //todo: demo
+    ứng với tag <title> và <meta name='description'> tại <head>
+    2. Thêm miêu tả, image khi share link qua các mạng xã hội như Facebook,
+    Twitter..
+    //todo: demo
+    - ứng với tag
+    <meta property="og:title"> (og: open graph meta data)
+    <meta property="twitter:title">
+    3. Thêm logo cho website
+    //todo: demo
+    Bao gồm các file favicon.icon, apple-icon.jpg, icon.jpg
+    4. Tạo URL "thân thiện" cho việc search (khái niệm slug)
+    //todo: demo
+    5. File hỗ trợ cho bot crawl
+    Bao gồm: robots.txt, sitemap.xml, JSON-LD, manifest.json
+    6. Responsive Images với Next Image
+
+FIXME:
+npm install -g localtunnel #173.2
+    -> Localtunnel là một công cụ giúp bạn chia sẻ ứng dụng hoặc trang web đang chạy trên máy tính 
+    cục bộ của bạn với người khác trên internet một cách dễ dàng. Khi bạn phát triển một ứng dụng 
+    web hoặc một trang web trên máy tính cá nhân, ứng dụng đó thường chỉ có thể truy cập thông qua 
+    localhost trên máy tính của bạn. Tuy nhiên, để chia sẻ nó với người khác, họ cần phải truy cập 
+    vào cùng một mạng hoặc cùng một máy tính.
+
+FIXME:
+npm i --save-exact slugify@1.6.6
+    -> Gói slugify thường được sử dụng để tạo ra các chuỗi đường dẫn (slug) từ các chuỗi văn bản. 
+    Mục đích chính của nó là chuyển đổi các chuỗi văn bản thành các chuỗi dễ đọc, thân thiện 
+    với SEO, thích hợp cho việc sử dụng trong các URL hoặc các nguồn dữ liệu khác.
+    "phố lên đèn" sau khi slug -> "pho-len-den"
+
+---------- Các file thêm tối ưu SEO: Robot.txt, sitemap và manifest.json #176
+
+---------- JSON-LD
+
+TODO: Next Image #178
+- Nén ảnh lại chuyển đổi định dạng ảnh giúp ảnh được load nhanh hơn, tăng trải nghiệm người dùng
+- Tự động co dãn hình ảnh
+
+        import Image from "next/image";
+        import flower from "../../public/flowers.jpg";
+
+        <img src="flowers.jpg" />
+        <Image src={flower} alt="thông tin ảnh bông hoa" />
+
+-> dùng img thông thường load bức ảnh 5.8MB, 
+dùng Image của NextJS thì kích thước ảnh load còn 521kB
