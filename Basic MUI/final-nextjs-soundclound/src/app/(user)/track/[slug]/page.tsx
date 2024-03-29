@@ -3,6 +3,7 @@ import { sendRequest } from "@/utils/api";
 import { Container } from "@mui/material";
 import slugify from "slugify";
 import type { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: { slug: string };
@@ -41,7 +42,7 @@ export async function generateMetadata(
 
 const DetailTrackPage = async (props: any) => {
   const { params } = props;
-  console.log(params);
+  // console.log(params);
 
   // Thực hiện cắt (split) để lấy id từ link Url (params.slug)
   const temp = params?.slug?.split(".html") ?? [];
@@ -70,13 +71,18 @@ const DetailTrackPage = async (props: any) => {
     },
   });
 
-  const dataCmt = resCmt.data?.result ?? [];
-  // console.log("comment:", resCmt.data?.result);
+  // Nếu không có thông tin, dữ liệu bài hát thì render ra trang not-found cùng cấp
+  if (!res?.data) {
+    notFound();
+  }
 
   return (
     <Container>
       <div>
-        <WaveTrack track={res?.data ?? null} comments={dataCmt} />
+        <WaveTrack
+          track={res?.data ?? null}
+          comments={resCmt.data?.result ?? []}
+        />
       </div>
     </Container>
   );

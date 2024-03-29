@@ -8,7 +8,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Link from "next/link";
 import { convertSlugUrl } from "@/utils/api";
-
+import Image from "next/image";
 interface IProps {
   title: string;
   data: ITrackTop[];
@@ -64,9 +64,37 @@ const MainSlider = (props: IProps) => {
     infinite: true,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+
+    // Thực hiện điều chỉnh số lượng slide hiển thị tùy theo từng loại thiết bị
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
   return (
     <Box
@@ -91,9 +119,22 @@ const MainSlider = (props: IProps) => {
         {data.map((track, index) => {
           return (
             <div className="track" key={index}>
-              <img
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
-              />
+              <div
+                style={{
+                  position: "relative",
+                  height: "150px",
+                  width: "150px",
+                }}
+              >
+                <Image
+                  alt="soundcloud img"
+                  fill
+                  style={{
+                    objectFit: "contain",
+                  }}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
+                />
+              </div>
               <Link
                 href={`/track/${convertSlugUrl(track.title)}-${
                   track._id

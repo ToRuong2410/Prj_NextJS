@@ -13,6 +13,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { sendRequest } from "@/utils/api";
 import { useToast } from "@/utils/toast";
+import Image from "next/image";
 
 // % load
 function LinearProgressWithLabel(
@@ -204,7 +205,8 @@ const Step2 = (props: IProps) => {
             <div>
               {/* kiểm tra điều kiện xe có imgUrl chưa */}
               {info.imgUrl && (
-                <img
+                <Image
+                  alt="step2 image"
                   height={250}
                   width={250}
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${info.imgUrl}`}

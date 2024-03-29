@@ -89,12 +89,11 @@ export const fetchDefaultImages = (type: string) => {
   return "/user/default-user.png";
 };
 
-
-export const convertSlugUrl = (str:string) => {
-  if(!str) return "";
-  str = slugify("LE ĐỖ THAY ĐỔI", {
+export const convertSlugUrl = (str: string) => {
+  if (!str) return "";
+  str = slugify(str, {
     lower: true,
     locale: "vi",
-  })
+  });
   return str;
-}
+};

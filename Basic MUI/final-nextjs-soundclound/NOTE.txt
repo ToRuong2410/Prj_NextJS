@@ -360,7 +360,7 @@ npm i --save-exact slugify@1.6.6
 
 ---------- JSON-LD
 
-TODO: Next Image #178
+TODO: ========== Next Image ==========#178
 - Nén ảnh lại chuyển đổi định dạng ảnh giúp ảnh được load nhanh hơn, tăng trải nghiệm người dùng
 - Tự động co dãn hình ảnh
 
@@ -372,3 +372,26 @@ TODO: Next Image #178
 
 -> dùng img thông thường load bức ảnh 5.8MB, 
 dùng Image của NextJS thì kích thước ảnh load còn 521kB
+
+Khi sử dụng hình ảnh từ BE sẽ xảy ra lỗi -> sử dụng next.config.js để thêm thông tin images
+
+FIXME:
+npm i --save-exact next-nprogress-bar@2.1.2
+-> dùng hiển thị loading tiến trình trang web
+
+TODO: ========== Not Found ==========
+Thực chất thì NextJS đã hỗ trợ hiển thị trang not-found rồi nhưng đôi khi lại không
+import { notFound } from 'next/navigation'
+
+2 cách hiển thị trang not-found:
+    1. khai báo bên ngoài file (global) khi có lỗi liên quan đến url không tồn tại
+    (hoặc các lỗi khác) sẽ hiển thị trang not-found
+    2. khai báo cùng cấp -> dùng đk để kiểm tra dữ liệu nếu không có dữ liệu thì hiển thị
+    trang not-found
+
+TODO: ========== Middleware ==========#181
+Như cái tên: là người đứng giữa can thiệp vào request, respone
+Mô hình: request -> middleware -> response
+(Khái niệm này thường tồn tại ở phía BE)
+
+-> sử dụng middleware của NextAuth cung cấp

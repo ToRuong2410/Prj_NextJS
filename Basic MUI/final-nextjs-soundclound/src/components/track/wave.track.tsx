@@ -14,6 +14,7 @@ import CommentTrack from "./comment.track";
 import LikeTrack from "./like.track";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
+import Image from "next/image";
 
 interface IProps {
   track: ITrackTop | null;
@@ -313,15 +314,16 @@ const WaveTrack = (props: IProps) => {
               {comments.map((item) => {
                 return (
                   <Tooltip title={item.content} arrow key={item._id}>
-                    <img
+                    <Image
+                      alt="user comment"
+                      height={20}
+                      width={20}
                       onPointerMove={(e) => {
                         const hover = hoverRef.current!;
                         hover.style.width = calLeft(item.moment + 3);
                       }}
                       key={item._id}
                       style={{
-                        height: 20,
-                        width: 20,
                         position: "absolute",
                         top: 70,
                         zIndex: 20,
@@ -336,7 +338,7 @@ const WaveTrack = (props: IProps) => {
           </div>
         </div>
 
-        {/* Hiển thị ảnh */}
+        {/* Hiển thị ảnh bài hát*/}
         <div
           className="right"
           style={{
@@ -348,7 +350,8 @@ const WaveTrack = (props: IProps) => {
         >
           {track?.imgUrl ? (
             <div>
-              <img
+              <Image
+                alt=""
                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track?.imgUrl}`}
                 width={250}
                 height={250}
