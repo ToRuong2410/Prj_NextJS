@@ -3,6 +3,7 @@ FIXME:Các công cụ được sử dụng thêm:
         + MUI là 1 thư viện cho phép sử dụng các component được viết sẵn dành cho React
         + Phong cách design của MUI bị ảnh hưởng bởi Google's Material Design (giao diện
         sam same)
+    - Mô hình được sử dụng  để chia các file là route group
 
 FIXME:
 ----------------------------------------------------------------
@@ -291,6 +292,7 @@ TODO: ========== Quản lý các React State Global ========== #158
     3. Mobx
     4. Recoil
 
+useContext
 Tại sao dùng React Context API: giúp quản lý một vài hoặc nhiều state cùng 1 lúc
     - Không cần cài đặt thêm thư viện, vì đây là 1 api đã tích hợp sẵn trong React
     - Dữ liệu lưu trữ là đơn giản => context API giải quyết tốt
@@ -395,3 +397,52 @@ Mô hình: request -> middleware -> response
 (Khái niệm này thường tồn tại ở phía BE)
 
 -> sử dụng middleware của NextAuth cung cấp
+
+TODO: ========== NextJS Build Script ========== #183
+- Môi trường dev:
+    + code typescript => khi chạy, cần dịch code từ typescript sang javascript
+    + để có hot reloading, và tăng tốc độ => cần lưu code dịch (từ ts sang js) vào RAM
+    => thông thường, sẽ chậm trong lần đầu vào giao diện
+- Môi trường production:
+    + đã dịch "tất cả" code từ ts sang javascript => ko cần tới RAM
+    + tốc độ nhanh nhất (vì code là final và "đã build")
+
+2. Quá trình build nextjs
+- Bước 1: đã code xong dự án
+- Bước 2: chạy câu lệnh: npm run build
+    mục đích của câu lệnh này, là dịch "tất cả code từ typescript sang javascript", vì browser
+    chỉ hiểu js
+    Input: source code trong thư mục src/thư mục public/node_modules
+    Output: thư mục .next
+- Bước 3: test/preview dự án đã build, bằng câu lệnh: npm start
+    Lưu ý: khi chạy tại chế độ build (bước 3), nếu chúng ta sửa đổi code, sẽ không có "hot
+    reloading"
+    muốn xem sự thay đổi => cần build lại
+    muốn hot reloading => chạy tại chế độ dev
+
+TODO: ========== Build with Docker ========== #184
+
+việc chia 2 thành 2 file env để phân biệt file khi chạy ở chế độ development và chế độ production
+...
+
+TODO: ========== Giải thích khái niệm khi build dự án ========== 
+Sever (server-side rendering)
+
+Static (web tĩnh): nơi dữ liệu được render ra ngay từ trước và được gửi đến trình duyệt 
+mà không cần tính toán dữ liệu trên máy chủ mỗi lần yêu cầu. Khi bạn sử dụng trang tĩnh, 
+nó tạo ra các tệp HTML cho mỗi trang tại thời điểm xây dựng dự án và chỉ thay đổi khi dữ liệu mới 
+được cập nhật.
+
+SSG (Static Site Generation): Đây là một phương pháp tạo ra các trang web tĩnh trước đó tại thời 
+điểm xây dựng, mà không cần đến máy chủ khi người dùng yêu cầu. SSG giúp tăng tốc độ tải trang bằng 
+cách cung cấp các trang tĩnh đã được tạo trước cho người dùng, giảm tải cho máy chủ và cải thiện 
+trải nghiệm người dùng
+
+    FIXME: 
+    Xảy ra bug khi sử dụng ở chế độ npm run build 
+    -> hiện ra thông báo: "Entire page /track/upload deopted into client-side rendering"
+    Có nghĩa đang bị convert thành CSR (do sử dụng route group nên SSR không ăn)
+
+Sử dụng generateStaticParams được NextJS cung cấp để thực hiện SSG cho trang web
+-> để thực hiện được SSG cho trang track/[slug] -> cần chuyển folder ra ngoài cùng cấp với api để 
+tránh xảy ra lỗi do route group gây ra

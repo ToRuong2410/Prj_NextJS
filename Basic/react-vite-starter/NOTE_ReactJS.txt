@@ -43,6 +43,8 @@ Sử dụng map, thay vì vòng lặp for, hay while (do while) trong JSX vì:
 năng cao hơn. 
 
 TODO:========== Hook ==========
+Trong ReactJS, "hook" là một tính năng mới được giới thiệu từ phiên bản React 16.8 trở đi. 
+Các hook cho phép bạn sử dụng state và các tính năng khác của React mà trước đó chỉ có thể sử dụng trong class components
 
 ----- State: bản chất là 1 bộ nhớ của 1 component
 1. Khi cách dùng thông thường là chưa đủ
