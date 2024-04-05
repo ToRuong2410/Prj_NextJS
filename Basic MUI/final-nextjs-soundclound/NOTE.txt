@@ -318,6 +318,7 @@ từ các API hoặc làm mới bất kỳ dữ liệu nào liên quan đến ro
 => Việc làm mới router có thể hữu ích trong nhiều tình huống, chẳng hạn như khi cần cập nhật 
 dữ liệu hiển thị trên một trang mà không cần tải lại toàn bộ trang web. Điều này giúp cải thiện 
 trải nghiệm người dùng và giảm thiểu thời gian chờ đợi
+---> Nói chung là làm mới trang web
 
 TODO: ========== Metadata - SEO ========== #169
 Next.js cung cấp các API về Metadata, giúp chúng ta có thể cải thiện SEO cũng như khả
@@ -426,9 +427,9 @@ việc chia 2 thành 2 file env để phân biệt file khi chạy ở chế đ�
 ...
 
 TODO: ========== Giải thích khái niệm khi build dự án ========== 
-Sever (server-side rendering)
+Sever (Server Side rendering)
 
-Static (web tĩnh): nơi dữ liệu được render ra ngay từ trước và được gửi đến trình duyệt 
+Static (Web tĩnh): nơi dữ liệu được render ra ngay từ trước và được gửi đến trình duyệt 
 mà không cần tính toán dữ liệu trên máy chủ mỗi lần yêu cầu. Khi bạn sử dụng trang tĩnh, 
 nó tạo ra các tệp HTML cho mỗi trang tại thời điểm xây dựng dự án và chỉ thay đổi khi dữ liệu mới 
 được cập nhật.
@@ -446,3 +447,31 @@ trải nghiệm người dùng
 Sử dụng generateStaticParams được NextJS cung cấp để thực hiện SSG cho trang web
 -> để thực hiện được SSG cho trang track/[slug] -> cần chuyển folder ra ngoài cùng cấp với api để 
 tránh xảy ra lỗi do route group gây ra
+
+FIXME: ----- #189 Revalidating data (Time based revalidation) -----
+Giải thích: SSG là việc render trước ra file HTML để khi hiển thị chỉ việc lấy ra hiển thị thôi !!!
+-> Vấn đề: làm sao update file HTML khi đã render ra rồi (sau khi build dự án)
+-> có 2 cách là dùng revalidateTag hoặc revalidatePath
+    + revalidatePath: revalidate lại nguyên 1 trang dựa vào link api
+    + revalidateTag: dựa vào id nên chỉ revalidate trang nào chứa link api cần
+
+revalidatePath vs. router.refresh:
+router.refresh không clear "Data cache" (chỉ clear router cache và re-render page) 
+=> dùng cache: "no-store"
+
+===> Sử dụng revalidateTag
+Giúp người quản lý cập nhật lại dữ liệu API khi đã build dự án rồi
+
+Cơ chế hoạt động vô hiệu hóa bộ đệm - nơi lưu trữ dữ liệu trước đó (clear cache) -> router.refresh() 
+làm mới trang web (sau khi dữ liệu được xử lý (xóa cache -> cập nhật dữ liệu mới nhất))
+
+    // thực hiện lại validate lại dữ liệu API nếu link api được gọi lại -> clear data cache
+    await sendRequest<IBackendRes<any>>({
+        url: `/api/revalidate`,
+        method: "POST",
+        queryParams: {
+        tag: "track-by-profile", // kiểm tra tag có giống tag ở cha không -> xác định dữ liệu cần làm mới
+        secret: "justatestenxtjs", // !!! có thể bị lỗi secret thông tin do chạy ở client
+        },
+    });
+    router.refresh();

@@ -14,6 +14,10 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
     body: {
       id: slug,
     },
+    nextOption: {
+      // cache: "no-store"
+      next: { tags: ["track-by-profile"] },
+    },
   });
   const data = trackupload.data?.result ?? [];
 

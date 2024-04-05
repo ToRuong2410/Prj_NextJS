@@ -175,6 +175,16 @@ const Step2 = (props: IProps) => {
     if (res.data) {
       setValue(0);
       toast.success("Create a new track success !!!");
+
+      // thực hiện lại validate lại dữ liệu API nếu link api được gọi lại -> clear data cache
+      await sendRequest<IBackendRes<any>>({
+        url: `/api/revalidate`,
+        method: "POST",
+        queryParams: {
+          tag: "track-by-profile", // kiểm tra tag có giống tag ở cha không -> xác định dữ liệu cần làm mới
+          secret: "justatestenxtjs", // thông tin bảo mật !!!có thể bị lỗi secret thông tin do chạy ở client
+        },
+      });
     } else {
       toast.error(res.message);
     }

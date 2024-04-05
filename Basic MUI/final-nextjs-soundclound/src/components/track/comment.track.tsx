@@ -51,8 +51,18 @@ const CommentTrack = (props: IProps) => {
         Authorization: `Bearer ${session?.access_token}`,
       },
     });
+
     if (res.data) {
       setYourComment("");
+      // thực hiện lại validate lại dữ liệu API nếu link api được gọi lại -> clear data cache
+      await sendRequest<IBackendRes<any>>({
+        url: `/api/revalidate`,
+        method: "POST",
+        queryParams: {
+          tag: "track-by-id", // kiểm tra tag có giống tag ở cha không -> xác định dữ liệu cần làm mới
+          secret: "justatestenxtjs", // thông tin bảo mật !!!có thể bị lỗi secret thông tin do chạy ở client
+        },
+      });
       router.refresh();
     }
   };

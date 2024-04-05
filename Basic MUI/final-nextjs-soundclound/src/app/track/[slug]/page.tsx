@@ -50,7 +50,6 @@ export async function generateStaticParams() {
 
 const DetailTrackPage = async (props: any) => {
   const { params } = props;
-  // console.log(params);
 
   // Thực hiện cắt (split) để lấy id từ link Url (params.slug)
   const temp = params?.slug?.split(".html") ?? [];
@@ -63,7 +62,10 @@ const DetailTrackPage = async (props: any) => {
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tracks/${id}`,
     method: "GET",
     // ???
-    // nextOption: { cache: "no-store" },
+    nextOption: {
+      // cache: "no-store"
+      next: { tags: ["track-by-id"] },
+    },
   });
 
   const resCmt = await sendRequest<IBackendRes<IModelPaginate<ITrackComment>>>({
