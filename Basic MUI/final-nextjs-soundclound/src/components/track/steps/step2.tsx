@@ -188,7 +188,6 @@ const Step2 = (props: IProps) => {
     } else {
       toast.error(res.message);
     }
-    console.log(res);
   };
 
   return (
