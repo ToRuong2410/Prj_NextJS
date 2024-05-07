@@ -70,7 +70,6 @@ const AuthSignIn = () => {
       setResMessage(res.error);
       setOpenMessage(true);
     }
-    console.log(res);
   };
 
   return (
@@ -200,11 +199,13 @@ const AuthSignIn = () => {
                 <GitHubIcon titleAccess="Login with Github" />
               </Avatar>
 
-              <Avatar>
-                <GoogleIcon
-                  sx={{ cursor: "pointer" }}
-                  titleAccess="Login with Google"
-                />
+              <Avatar
+                sx={{ cursor: "pointer" }}
+                onClick={() => {
+                  signIn("google");
+                }}
+              >
+                <GoogleIcon titleAccess="Login with Google" />
               </Avatar>
             </Box>
           </div>

@@ -65,7 +65,7 @@ const PlaylistPage = async () => {
       <Box sx={{ mt: 3 }}>
         {playlists?.map((playlist) => {
           return (
-            <Accordion>
+            <Accordion key={playlist._id}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography sx={{ fontSize: "20px", color: "#ccc" }}>
                   {playlist.title}

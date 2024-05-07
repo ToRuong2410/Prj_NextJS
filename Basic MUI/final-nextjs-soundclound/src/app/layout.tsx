@@ -13,6 +13,7 @@ export default function RootLayout(props: ILayout) {
       <body>
         {/* xử lý MUI -> render component nhanh hơn, chỉnh màu sắc các thứ bla bla */}
         <ThemeRegistry>
+          {/* hiển thị loading trên cùng trên web */}
           <NProgressWrapper>
             {/* chia sẻ session giữa các component */}
             <NextAuthWrapper>

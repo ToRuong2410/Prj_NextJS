@@ -1,6 +1,6 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { convertSlugUrl, sendRequest } from "@/utils/api";
-import { Box, Container, Divider, Typography } from "@mui/material";
+import { Box, Container, Divider } from "@mui/material";
 import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import Image from "next/image";

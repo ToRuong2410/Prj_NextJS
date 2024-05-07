@@ -448,7 +448,7 @@ Sử dụng generateStaticParams được NextJS cung cấp để thực hiện 
 -> để thực hiện được SSG cho trang track/[slug] -> cần chuyển folder ra ngoài cùng cấp với api để 
 tránh xảy ra lỗi do route group gây ra
 
-FIXME: ----- #189 Revalidating data (Time based revalidation) -----
+TODO: ----- Revalidating data (Time based revalidation) ----- #189
 Giải thích: SSG là việc render trước ra file HTML để khi hiển thị chỉ việc lấy ra hiển thị thôi !!!
 -> Vấn đề: làm sao update file HTML khi đã render ra rồi (sau khi build dự án)
 -> có 2 cách là dùng revalidateTag hoặc revalidatePath
@@ -475,3 +475,19 @@ làm mới trang web (sau khi dữ liệu được xử lý (xóa cache -> cập
         },
     });
     router.refresh();
+
+TODO: ----- Login with Google ----- #193
+B1: Truy cập console.cloud.google.com để tạo prj -> chọn dự án
+B2: Tạo OAuth client ID tại phần Credentials
+B3: Thực hiện khia báo thông tin tại phần "Configure consent screen" để cung cấp, 
+xác thực lại thông tin 
+B4: Tạo OAuth client ID
+
+TODO: ----- Thực hiện refresh token ----- #194
+Nhằm load lại dữ liệu token trước khi hết hạn -> 
+
+FIXME: 
+--- Tối ưu hóa hình ảnh ở chế độ production: npm i sharp 
+
+--- Cài đặt kiểm tra version mới nhất của các thư viện: 
+npm install -g npm-check-updates -> Sử dụng: ncu

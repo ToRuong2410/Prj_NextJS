@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { fetchDefaultImages } from "@/utils/api";
 import Image from "next/image";
+import ActiveLink from "./active.link";
 
 // styled-components
 const Search = styled("div")(({ theme }) => ({
@@ -145,38 +146,90 @@ export default function AppHeader() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
+      {/* {session ? (
+        <>
+          <ActiveLink href={"/playlist"}>Playlist</ActiveLink>
+          <ActiveLink href={"/like"}>Likes</ActiveLink>
+          <ActiveLink href={"/track/upload"}>Upload</ActiveLink>
+          <Image
+            onClick={handleProfileMenuOpen}
+            src={fetchDefaultImages(session.user.type)}
+            alt="avatar"
+            width={35}
+            height={35}
+          />
+        </>
+      ) : (
+        <>
+          <Link href={"/auth/signin"}>Login</Link>
+        </>
+      )} */}
+      {session ? (
+        <>
+          <MenuItem
+            sx={{
+              "> a": {
+                color: "unset",
+                textDecoration: "none",
+                "&.active": {
+                  color: "red",
+                },
+              },
+            }}
+          >
+            <ActiveLink href={"/playlist"}>Playlist</ActiveLink>
+          </MenuItem>
+          <MenuItem
+            sx={{
+              "> a": {
+                color: "unset",
+                textDecoration: "none",
+                "&.active": {
+                  color: "red",
+                },
+              },
+            }}
+          >
+            <ActiveLink href={"/like"}>Likes</ActiveLink>
+          </MenuItem>
+          <MenuItem
+            sx={{
+              "> a": {
+                color: "unset",
+                textDecoration: "none",
+                "&.active": {
+                  color: "red",
+                },
+              },
+            }}
+          >
+            <ActiveLink href={"/track/upload"}>Upload</ActiveLink>
+          </MenuItem>
+          <MenuItem onClick={handleProfileMenuOpen}>
+            <Image
+              onClick={handleProfileMenuOpen}
+              src={fetchDefaultImages(session?.user?.type)}
+              alt="avatar"
+              width={35}
+              height={35}
+            />
+          </MenuItem>
+        </>
+      ) : (
+        <MenuItem
+          sx={{
+            "> a": {
+              color: "unset",
+              textDecoration: "none",
+              "&.active": {
+                color: "red",
+              },
+            },
+          }}
         >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+          <Link href={"/auth/signin"}>Login</Link>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -208,6 +261,12 @@ export default function AppHeader() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                onKeyDown={(e: any) => {
+                  if (e.key === "Enter") {
+                    if (e?.target?.value)
+                      router.push(`/search?result=${e?.target?.value}`);
+                  }
+                }}
               />
             </Search>
             <Box sx={{ flexGrow: 1 }} />
@@ -218,15 +277,24 @@ export default function AppHeader() {
                 gap: "25px",
                 cursor: "pointer",
 
-                "> a": { color: "unset", textDecoration: "none" },
+                "> a": {
+                  color: "unset",
+                  textDecoration: "none",
+                  padding: "5px",
+                  "&.active": {
+                    backgroundColor: "#3b4a59",
+                    color: "#cefaff",
+                    borderRadius: "5px",
+                  },
+                },
               }}
             >
               {/* Kiểm tra xem có thông tin người dùng chưa */}
               {session ? (
                 <>
-                  <Link href={"/playlist"}>Playlist</Link>
-                  <Link href={"/like"}>Likes</Link>
-                  <Link href={"/track/upload"}>Upload</Link>
+                  <ActiveLink href={"/playlist"}>Playlist</ActiveLink>
+                  <ActiveLink href={"/like"}>Likes</ActiveLink>
+                  <ActiveLink href={"/track/upload"}>Upload</ActiveLink>
                   <Image
                     onClick={handleProfileMenuOpen}
                     src={fetchDefaultImages(session.user.type)}
