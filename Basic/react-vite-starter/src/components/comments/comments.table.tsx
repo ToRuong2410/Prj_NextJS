@@ -181,7 +181,7 @@ const CommentsTable = () => {
           alignItems: "center",
         }}
       >
-        <h2>Table Tracks</h2>
+        <h2>Table Comments</h2>
       </div>
       <Table
         columns={columns}
