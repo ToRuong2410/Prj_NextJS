@@ -491,3 +491,4 @@ FIXME:
 
 --- Cài đặt kiểm tra version mới nhất của các thư viện: 
 npm install -g npm-check-updates -> Sử dụng: ncu
+Lỗi từ version next 13.5.4 -> phải fix lại (chưa fix)
