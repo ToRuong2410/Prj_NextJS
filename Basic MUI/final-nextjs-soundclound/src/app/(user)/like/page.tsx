@@ -14,6 +14,11 @@ export const metadata: Metadata = {
 const LikePage = async () => {
   const session = await getServerSession(authOptions);
 
+  console.log(
+    ">>> refresh token in server component",
+    session?.refresh_token.slice(-5)
+  );
+
   const res = await sendRequest<IBackendRes<IModelPaginate<ITrackTop>>>({
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/likes`,
     method: "GET",

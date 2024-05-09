@@ -18,6 +18,11 @@ async function refreshAccessToken(token: JWT) {
     console.log(">>> check old token: ", token.access_token);
     console.log(">>> check new token: ", res.data?.access_token);
 
+    console.log(
+      ">>> refresh token in DB: ",
+      res.data?.refresh_token.slice(-5) ?? ""
+    );
+
     return {
       // Thực hiện ghi đè lại thông tin cũ
       ...token,
@@ -35,6 +40,8 @@ async function refreshAccessToken(token: JWT) {
     };
   } else {
     //failed to refresh token => do nothing
+    console.log(">>> run error: ", "RefreshAccessTokenError");
+
     return {
       ...token,
       error: "RefreshAccessTokenError", // This is used in the front-end, and if present, we can force a re-login, or similar
@@ -98,6 +105,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
+    // callback này được gọi khi token được tạo (khi signIn, update - việc sử dụng Session ở phía client)
     async jwt({ token, user, account, profile, trigger }) {
       if (trigger === "signIn" && account?.provider !== "credentials") {
         const res = await sendRequest<IBackendRes<JWT>>({
@@ -145,6 +153,13 @@ export const authOptions: AuthOptions = {
       // ngược lại vẫn trả ra token bình thường
       const isTimeAfter = dayjs(dayjs(new Date())).isAfter(
         dayjs.unix((token?.access_expire as number) ?? 0)
+      );
+
+      console.log(
+        ">>> Refresh token in Session: ",
+        token.refresh_token?.slice(-5),
+        "should refresh = ",
+        isTimeAfter
       );
 
       if (isTimeAfter) {
