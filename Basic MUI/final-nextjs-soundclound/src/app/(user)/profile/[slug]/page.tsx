@@ -1,3 +1,4 @@
+import InforProfile from "@/components/Profile/infor.profile";
 import ProfileTracks from "@/components/header/proflie.tracks";
 import { sendRequest } from "@/utils/api";
 import { Container, Grid } from "@mui/material";
@@ -24,7 +25,8 @@ const ProfilePage = async ({ params }: { params: { slug: string } }) => {
   // console.log('du lieu data hien thi:', data);
 
   return (
-    <Container sx={{ my: 5 }}>
+    <Container sx={{ my: 2 }}>
+      <InforProfile />
       <Grid container spacing={5}>
         {data.map((item: ITrackTop[], index: number) => {
           return (

@@ -18,10 +18,10 @@ async function refreshAccessToken(token: JWT) {
     console.log(">>> check old token: ", token.access_token);
     console.log(">>> check new token: ", res.data?.access_token);
 
-    console.log(
-      ">>> refresh token in DB: ",
-      res.data?.refresh_token.slice(-5) ?? ""
-    );
+    // console.log(
+    //   ">>> refresh token in DB: ",
+    //   res.data?.refresh_token.slice(-5) ?? ""
+    // );
 
     return {
       // Thực hiện ghi đè lại thông tin cũ
@@ -40,7 +40,7 @@ async function refreshAccessToken(token: JWT) {
     };
   } else {
     //failed to refresh token => do nothing
-    console.log(">>> run error: ", "RefreshAccessTokenError");
+    // console.log(">>> run error: ", "RefreshAccessTokenError");
 
     return {
       ...token,
@@ -155,12 +155,12 @@ export const authOptions: AuthOptions = {
         dayjs.unix((token?.access_expire as number) ?? 0)
       );
 
-      console.log(
-        ">>> Refresh token in Session: ",
-        token.refresh_token?.slice(-5),
-        "should refresh = ",
-        isTimeAfter
-      );
+      // console.log(
+      //   ">>> Refresh token in Session: ",
+      //   token.refresh_token?.slice(-5),
+      //   "should refresh = ",
+      //   isTimeAfter
+      // );
 
       if (isTimeAfter) {
         return refreshAccessToken(token);
