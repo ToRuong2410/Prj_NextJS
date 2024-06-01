@@ -64,7 +64,7 @@ const MainSlider = (props: IProps) => {
     infinite: true,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
 
@@ -124,25 +124,35 @@ const MainSlider = (props: IProps) => {
                   position: "relative",
                   height: "150px",
                   width: "150px",
+                  marginBottom: "10px",
                 }}
               >
-                <Image
-                  alt="soundcloud img"
-                  fill
-                  style={{
-                    objectFit: "contain",
-                  }}
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
-                />
+                <Link
+                  href={`/track/${convertSlugUrl(track.title)}-${
+                    track._id
+                  }.html?audio=${track.trackUrl}&id=${track._id}`}
+                >
+                  <Image
+                    alt="soundcloud img"
+                    fill
+                    style={{
+                      objectFit: "contain",
+                    }}
+                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
+                  />
+                </Link>
               </div>
               <Link
+                style={{ textDecoration: "none" }}
                 href={`/track/${convertSlugUrl(track.title)}-${
                   track._id
                 }.html?audio=${track.trackUrl}&id=${track._id}`}
               >
-                <h4>{track.title}</h4>
+                <b style={{ fontSize: "15px" }}>{track.title}</b>
               </Link>
-              <h5>{track.description}</h5>
+              <p style={{ color: "gray", marginTop: "0px", fontSize: "13px" }}>
+                {track.description}
+              </p>
             </div>
           );
         })}

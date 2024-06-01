@@ -18,7 +18,7 @@ const ClientSearch = () => {
       method: "POST",
       body: {
         current: 1,
-        pageSize: 10,
+        pageSize: 50,
         title: query,
       },
     });
@@ -46,13 +46,20 @@ const ClientSearch = () => {
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
               {tracksSearch.map((track) => {
                 return (
-                  <div key={track._id}>
+                  <div key={track._id}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#C0C0C0'; // Màu cam nhạt
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = 'unset';
+                  }}
+                  >
                     <Box sx={{ display: "flex", width: "100%", gap: "20px" }}>
                       <Image
                         style={{ borderRadius: "3px" }}
                         alt="avatar track"
-                        width={50}
-                        height={50}
+                        width={56}
+                        height={56}
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/images/${track.imgUrl}`}
                       />
                       <Typography sx={{ py: 2 }}>
