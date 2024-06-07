@@ -113,13 +113,16 @@ export const authOptions: AuthOptions = {
           method: "POST",
           body: {
             type: account?.provider.toLocaleUpperCase(),
-            username: user.email,
+            username: user.email, // -> Cấu hình dữ liệu trả về, do truyền mội email nên nó lấy mối email Google thôi, chưa lấy được thông tin avatar và name
           },
         });
         if (res.data) {
           token.access_token = res.data.access_token;
           token.refresh_token = res.data.refresh_token;
           token.user = res.data.user;
+          // token.name = res.data.name;
+          // token.picture = res.data.picture;
+          // token.email = res.data.email;
 
           // Mỗi khi signIn thành công, gán vào access_expire thời gian cho biết khi nào token hết hạn
           // -> không phải nhờ tới BE để biết token này hết hạn hay không
@@ -169,6 +172,10 @@ export const authOptions: AuthOptions = {
       return token;
     },
     session({ session, token, user }) {
+      // console.log("thong tin session--------", session);
+      // console.log("thong tin user--------", user);
+      // console.log("thong tin token--------", token);
+
       if (token) {
         // Thực hiện gán dữ liệu vào session
         session.access_token = token.access_token;

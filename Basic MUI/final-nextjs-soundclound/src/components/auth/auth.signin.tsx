@@ -191,7 +191,12 @@ const AuthSignIn = () => {
               }}
             >
               <Avatar
-                sx={{ cursor: "pointer" }}
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "orange",
+                  },
+                }}
                 onClick={() => {
                   signIn("github");
                 }}
@@ -200,7 +205,12 @@ const AuthSignIn = () => {
               </Avatar>
 
               <Avatar
-                sx={{ cursor: "pointer" }}
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    background: "orange",
+                  },
+                }}
                 onClick={() => {
                   signIn("google");
                 }}

@@ -53,11 +53,12 @@ const Step1 = (props: IProps) => {
 
   const onDrop = React.useCallback(
     async (acceptedFiles: FileWithPath[]) => {
-      setValue(1); // chuyển từ phần "Tracks" sang phần "Basic Information"
       if (acceptedFiles && acceptedFiles[0]) {
         // nếu upload nhiều file thì acceptedFiles[0] lấy ra file đầu tiên
         const audio = acceptedFiles[0];
         console.log(audio);
+
+        setValue(1); // chuyển từ phần "Tracks" sang phần "Basic Information"
 
         const formData = new FormData();
         formData.append("fileUpload", audio);
@@ -126,6 +127,9 @@ const Step1 = (props: IProps) => {
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <InputFileUpload />
+        <h4 style={{ color: "orange", marginBottom: "0px" }}>
+          Requires mp3 file format or similar files
+        </h4>
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
       <aside>

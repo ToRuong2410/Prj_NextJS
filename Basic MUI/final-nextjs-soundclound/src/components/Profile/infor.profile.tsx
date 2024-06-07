@@ -65,14 +65,12 @@ const InforProfile = () => {
             </Grid>
             <Grid item xs={12} sm={8} md={9}>
               <Typography variant="h5">
-                Name: {session?.user.username}
+                Infomation: {session?.user.email}
               </Typography>
-              <Typography variant="body1">
-                Email: {session?.user.email}
-              </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1">Id: {session?.user._id}</Typography>
+              {/* <Typography variant="body1">
                 Role: {session?.user.role}
-              </Typography>
+              </Typography> */}
               {session?.user.role.toLocaleLowerCase() === "admin" && (
                 <Button
                   variant="contained"

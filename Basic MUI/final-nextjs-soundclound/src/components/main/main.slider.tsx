@@ -25,7 +25,7 @@ const MainSlider = (props: IProps) => {
         color="inherit"
         sx={{
           position: "absolute",
-          right: 25,
+          right: 15,
           top: "25%",
           zIndex: 2,
           minWidth: 30,
@@ -50,6 +50,7 @@ const MainSlider = (props: IProps) => {
           zIndex: 2,
           minWidth: 30,
           width: 35,
+          left: "-25px",
         }}
         onClick={onClick}
       >
