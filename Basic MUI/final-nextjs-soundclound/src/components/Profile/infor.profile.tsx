@@ -1,42 +1,21 @@
 "use client";
 
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import React from "react";
-import { fetchDefaultImages } from "@/utils/api";
-import Image from "next/image";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 import { useSession } from "next-auth/react";
 import { Button } from "@mui/material";
+import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import Image from "next/image";
 
-interface Playlist {
-  name: string;
-  songCount: number;
-}
-
-interface UserProfile {
-  name: string;
-  email: string;
-  avatarUrl: string;
-  playlists: Playlist[];
-}
-
-const userProfile: UserProfile = {
-  name: "John Doe",
-  email: "john.doe@example.com",
-  avatarUrl: "https://via.placeholder.com/150",
-  playlists: [
-    { name: "Rock Classics", songCount: 20 },
-    { name: "Jazz Vibes", songCount: 15 },
-    { name: "Pop Hits", songCount: 25 },
-  ],
-};
+import { fetchDefaultImages } from "@/utils/api";
 
 const InforProfile = () => {
   const { data: session } = useSession();
+
+console.log(session);
 
   return (
     <Container maxWidth="md" sx={{ marginBottom: 2 }}>
@@ -65,12 +44,9 @@ const InforProfile = () => {
             </Grid>
             <Grid item xs={12} sm={8} md={9}>
               <Typography variant="h5">
-                Infomation: {session?.user.email}
+                Infomation: {session?.user.username}
               </Typography>
               <Typography variant="body1">Id: {session?.user._id}</Typography>
-              {/* <Typography variant="body1">
-                Role: {session?.user.role}
-              </Typography> */}
               {session?.user.role.toLocaleLowerCase() === "admin" && (
                 <Button
                   variant="contained"
@@ -85,18 +61,6 @@ const InforProfile = () => {
               )}
             </Grid>
           </Grid>
-          <Box mt={2}>
-            {/* <Typography variant="h6">Playlists</Typography>
-            <Grid container spacing={1}>
-              {userProfile.playlists.map((playlist, index) => (
-                <Grid item xs={12} key={index}>
-                  <Typography variant="body1">
-                    {playlist.name} - {playlist.songCount} songs
-                  </Typography>
-                </Grid>
-              ))}
-            </Grid> */}
-          </Box>
         </CardContent>
       </Card>
     </Container>

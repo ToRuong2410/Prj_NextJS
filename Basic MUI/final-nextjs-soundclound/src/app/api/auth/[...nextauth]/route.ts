@@ -1,11 +1,12 @@
-import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import { AuthOptions } from "next-auth/";
-import { sendRequest } from "@/utils/api";
 import { JWT } from "next-auth/jwt";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from "next-auth";
 import dayjs from "dayjs";
+
+import { sendRequest } from "@/utils/api";
+import { AuthOptions } from "next-auth/";
 
 async function refreshAccessToken(token: JWT) {
   const res = await sendRequest<IBackendRes<JWT>>({
@@ -15,14 +16,6 @@ async function refreshAccessToken(token: JWT) {
   });
 
   if (res.data) {
-    console.log(">>> check old token: ", token.access_token);
-    console.log(">>> check new token: ", res.data?.access_token);
-
-    // console.log(
-    //   ">>> refresh token in DB: ",
-    //   res.data?.refresh_token.slice(-5) ?? ""
-    // );
-
     return {
       // Thực hiện ghi đè lại thông tin cũ
       ...token,
@@ -51,15 +44,9 @@ async function refreshAccessToken(token: JWT) {
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: {
           label: "Username",
@@ -71,7 +58,6 @@ export const authOptions: AuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
         const res = await sendRequest<IBackendRes<JWT>>({
           url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/login`,
           method: "POST",
@@ -82,16 +68,9 @@ export const authOptions: AuthOptions = {
         });
 
         if (res && res.data) {
-          // Any object returned will be saved in `user` property of the JWT
           return res.data as any;
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          // return null;
-
-          // Dùng throw sẽ dùng việc thực thi hàm và gửi lỗi lên phía trên -> giúp xử lý lỗi ở 1 nơi duy nhất, dễ dàng việc quản lý và xử lý các vấn đề xảy ra
           throw new Error(res?.message as string);
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
@@ -113,16 +92,17 @@ export const authOptions: AuthOptions = {
           method: "POST",
           body: {
             type: account?.provider.toLocaleUpperCase(),
-            username: user.email, // -> Cấu hình dữ liệu trả về, do truyền mội email nên nó lấy mối email Google thôi, chưa lấy được thông tin avatar và name
+            username: user.name,
+            email: user.email, // -> Cấu hình dữ liệu trả về, do truyền mội email nên nó lấy mối email Google thôi, chưa lấy được thông tin avatar và name
           },
         });
         if (res.data) {
           token.access_token = res.data.access_token;
           token.refresh_token = res.data.refresh_token;
           token.user = res.data.user;
-          // token.name = res.data.name;
+          token.name = res.data.name;
           // token.picture = res.data.picture;
-          // token.email = res.data.email;
+          token.email = res.data.email;
 
           // Mỗi khi signIn thành công, gán vào access_expire thời gian cho biết khi nào token hết hạn
           // -> không phải nhờ tới BE để biết token này hết hạn hay không
@@ -183,6 +163,8 @@ export const authOptions: AuthOptions = {
         session.user = token.user;
         session.access_expire = token.access_expire;
         session.error = token.error;
+        session.user.username = token.user.username;
+        session.user.email = token.user.email;
       }
       return session;
     },
