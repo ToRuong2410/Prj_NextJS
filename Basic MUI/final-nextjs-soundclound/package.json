@@ -35,12 +35,16 @@
     "wavesurfer.js": "7.3.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.1",
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@types/react-slick": "^0.23.13",
-    "eslint": "8.48.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "13.4.19",
-    "typescript": "5.2.2"
+    "eslint-plugin-react": "^7.35.0",
+    "globals": "^15.9.0",
+    "typescript": "5.2.2",
+    "typescript-eslint": "^8.3.0"
   }
 }

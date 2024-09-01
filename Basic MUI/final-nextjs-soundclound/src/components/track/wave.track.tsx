@@ -1,20 +1,19 @@
 "use client";
-
-import { useWavesurfer } from "@/utils/customHook";
-import { useSearchParams } from "next/navigation";
 import { useRef, useMemo, useCallback, useState, useEffect } from "react";
-import { WaveSurferOptions } from "wavesurfer.js";
-import "./wave.scss";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useSearchParams } from "next/navigation";
+import { WaveSurferOptions } from "wavesurfer.js";
 import PauseIcon from "@mui/icons-material/Pause";
+import { useRouter } from "next/navigation";
 import { Tooltip } from "@mui/material";
+import Image from "next/image";
+
 import { fetchDefaultImages, sendRequest } from "@/utils/api";
 import { useTrackContext } from "@/lib/track.wrapper";
+import { useWavesurfer } from "@/utils/customHook";
 import CommentTrack from "./comment.track";
 import LikeTrack from "./like.track";
-import { useRouter } from "next/navigation";
-import { Router } from "next/router";
-import Image from "next/image";
+import "./wave.scss";
 
 interface IProps {
   track: ITrackTop | null;
