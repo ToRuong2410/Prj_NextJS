@@ -290,6 +290,7 @@ export default function AppHeader() {
                 <>
                   <ActiveLink href={"/playlist"}>Playlist</ActiveLink>
                   <ActiveLink href={"/like"}>Likes</ActiveLink>
+                  <ActiveLink href={"/topSong"}>Top songs</ActiveLink>
                   <ActiveLink href={"/track/upload"}>Upload</ActiveLink>
                   <Image
                     onClick={handleProfileMenuOpen}

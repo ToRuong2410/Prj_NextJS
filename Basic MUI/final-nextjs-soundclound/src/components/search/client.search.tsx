@@ -47,12 +47,12 @@ const ClientSearch = () => {
               {tracksSearch.map((track) => {
                 return (
                   <div key={track._id}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#C0C0C0'; // Màu cam nhạt
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = 'unset';
-                  }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#C0C0C0'; // Màu cam nhạt
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = 'unset';
+                    }}
                   >
                     <Box sx={{ display: "flex", width: "100%", gap: "20px" }}>
                       <Image
