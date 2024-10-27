@@ -88,7 +88,10 @@ const LikeTrack = (props: IProps) => {
         link.href = url;
 
         // Đặt tên file với định dạng .mp3
-        link.setAttribute("download", `${track?.trackUrl}`);
+        link.setAttribute(
+          "download",
+          `${track?.title} - ${track?.description}`
+        );
         document.body.appendChild(link);
 
         // Bắt đầu quá trình tải
