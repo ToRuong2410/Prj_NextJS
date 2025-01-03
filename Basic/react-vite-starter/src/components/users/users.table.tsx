@@ -127,8 +127,8 @@ const UsersTable = () => {
               Edit
             </Button>
             <Popconfirm
-              title="Delete the task"
-              description={`Are you sure you want to delete name = ${record.name} ?`}
+              title="Delete the user"
+              description={`Are you sure you want to delete user name = ${record.name} ?`}
               onConfirm={() => {
                 confirm(record);
               }}

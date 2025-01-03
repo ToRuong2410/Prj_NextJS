@@ -128,7 +128,7 @@ const CommentTrack = (props: IProps) => {
                     height={40}
                     width={40}
                     alt="comment"
-                    src={fetchDefaultImages(comment.user.type)}
+                    src={fetchDefaultImages(comment?.user?.type!)}
                   />
                   <div>
                     <div

@@ -340,7 +340,7 @@ const WaveTrack = (props: IProps) => {
                         zIndex: 20,
                         left: calLeft(item.moment),
                       }}
-                      src={fetchDefaultImages(item.user.type)}
+                      src={fetchDefaultImages(item?.user?.type!)}
                     />
                   </Tooltip>
                 );

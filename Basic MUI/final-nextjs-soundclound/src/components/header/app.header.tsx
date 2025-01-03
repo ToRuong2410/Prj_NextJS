@@ -204,7 +204,7 @@ export default function AppHeader() {
           <MenuItem onClick={handleProfileMenuOpen}>
             <Image
               onClick={handleProfileMenuOpen}
-              src={fetchDefaultImages(session?.user?.type)}
+              src={fetchDefaultImages(session?.user?.type!)}
               alt="avatar"
               width={35}
               height={35}
@@ -294,7 +294,7 @@ export default function AppHeader() {
                   <ActiveLink href={"/track/upload"}>Upload</ActiveLink>
                   <Image
                     onClick={handleProfileMenuOpen}
-                    src={fetchDefaultImages(session.user.type)}
+                    src={fetchDefaultImages(session?.user?.type!)}
                     alt="avatar"
                     width={35}
                     height={35}

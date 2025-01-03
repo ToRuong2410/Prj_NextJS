@@ -75,7 +75,7 @@ const TracksTable = () => {
     if (d.data) {
       // success
       notification.success({
-        message: "Xóa user thành công",
+        message: "Xóa track thành công",
       });
       await getData();
     } else {
@@ -122,8 +122,8 @@ const TracksTable = () => {
         return (
           <div>
             <Popconfirm
-              title="Delete the task"
-              description={`Are you sure you want to delete name = ${record.title} ?`}
+              title="Delete the track"
+              description={`Are you sure you want to delete track name = ${record.title} ?`}
               onConfirm={() => {
                 confirm(record);
               }}

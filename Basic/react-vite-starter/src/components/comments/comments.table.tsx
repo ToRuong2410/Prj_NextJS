@@ -128,7 +128,7 @@ const CommentsTable = () => {
         return (
           <div>
             <Popconfirm
-              title="Delete the task"
+              title="Delete the comment"
               description={`Are you sure you want to delete comment = ${record.content} ?`}
               onConfirm={() => {
                 confirm(record);
