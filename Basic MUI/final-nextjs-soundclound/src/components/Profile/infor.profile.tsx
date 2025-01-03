@@ -15,7 +15,7 @@ import { fetchDefaultImages } from "@/utils/api";
 const InforProfile = () => {
   const { data: session } = useSession();
 
-console.log(session);
+  console.log(session);
 
   return (
     <Container maxWidth="md" sx={{ marginBottom: 2 }}>
@@ -44,9 +44,12 @@ console.log(session);
             </Grid>
             <Grid item xs={12} sm={8} md={9}>
               <Typography variant="h5">
-                Infomation: {session?.user.username}
+                Infomation: {session?.user.username == "" ? session?.user.name : session?.user.username}
               </Typography>
-              <Typography variant="body1">Id: {session?.user._id}</Typography>
+              <Typography>
+                {session?.user.address && `Address: ${session?.user.address}`}
+              </Typography>
+              <Typography variant="body2">Id: {session?.user._id}</Typography>
               {session?.user.role.toLocaleLowerCase() === "admin" && (
                 <Button
                   variant="contained"

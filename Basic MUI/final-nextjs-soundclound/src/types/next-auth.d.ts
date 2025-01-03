@@ -8,6 +8,10 @@ interface IUser {
   isVerify: boolean;
   type: string;
   role: string;
+  address?: string;
+  age?: number;
+  gender?: string;
+  name?: string;
 }
 
 declare module "next-auth/jwt" {
