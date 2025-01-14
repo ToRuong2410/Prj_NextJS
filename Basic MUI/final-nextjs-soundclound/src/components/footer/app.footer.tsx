@@ -15,15 +15,16 @@ const AppFooter = () => {
   const playerRef = useRef(null);
 
   useEffect(() => {
-    if (currentTrack?.isPlaying === false) {
+    console.log('currentTrack.isPlaying', currentTrack.isPlaying);
+    
+    if (currentTrack.isPlaying === true) {
+      //@ts-ignore
+      playerRef?.current?.audio?.current?.play();
+    } else {
       //@ts-ignore
       playerRef?.current?.audio?.current?.pause();
     }
-    if (currentTrack?.isPlaying === true) {
-      //@ts-ignore
-      playerRef?.current?.audio?.current?.play();
-    }
-  }, [currentTrack]);
+  }, [currentTrack.isPlaying]);
 
   if (!hasMounted) return <></>;
 

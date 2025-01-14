@@ -6,7 +6,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Chip } from "@mui/material";
+import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import axios from "axios";
 
 import { sendRequest } from "@/utils/api";
@@ -21,6 +21,7 @@ const LikeTrack = (props: IProps) => {
   const router = useRouter();
 
   const [trackLike, setTrackLike] = useState<ITrackLike[] | null>(null);
+  const [openDownloadDialog, setOpenDownloadDialog] = useState<boolean>(false);
 
   const fecthData = async () => {
     if (session?.access_token) {
@@ -104,6 +105,7 @@ const LikeTrack = (props: IProps) => {
         console.error("Error downloading the file", error);
       }
     }
+    setOpenDownloadDialog(false);
   };
 
   return (
@@ -141,11 +143,29 @@ const LikeTrack = (props: IProps) => {
           style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "#f50")}
           onMouseLeave={(e) => (e.currentTarget.style.color = "#999")}
-          onClick={handleDownloadTrack}
+          onClick={() => setOpenDownloadDialog(true)}
         >
           <DownloadIcon />
         </span>
       </div>
+
+      <Dialog
+        open={openDownloadDialog}
+        onClose={() => setOpenDownloadDialog(false)}
+      >
+        <DialogTitle>Xác nhận tải xuống</DialogTitle>
+        <DialogContent>
+          Bạn có chắc chắn muốn tải xuống bài hát: <strong>{track?.title}</strong> không?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDownloadDialog(false)} color="error">
+            Hủy
+          </Button>
+          <Button onClick={handleDownloadTrack} color="primary" autoFocus>
+            Tải xuống
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

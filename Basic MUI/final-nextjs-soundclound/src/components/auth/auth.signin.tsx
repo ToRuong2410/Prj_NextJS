@@ -41,6 +41,11 @@ const AuthSignIn = () => {
   const [openMessage, setOpenMessage] = useState<boolean>(false);
   const [resMessage, setResMessage] = useState<string>("");
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async () => {
     setIsErrorUsername(false);
     setIsErrorPassword(false);
@@ -49,7 +54,12 @@ const AuthSignIn = () => {
 
     if (!username) {
       setIsErrorUsername(true);
-      setErrorUsername("Username is required");
+      setErrorUsername("Email is required");
+      return;
+    }
+    if (!validateEmail(username)) {
+      setIsErrorUsername(true);
+      setErrorUsername("Invalid email format");
       return;
     }
     if (!password) {
@@ -123,7 +133,7 @@ const AuthSignIn = () => {
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
-              label="Username"
+              label="Email"
               variant="outlined"
               margin="normal"
               required

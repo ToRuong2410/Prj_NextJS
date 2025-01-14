@@ -134,7 +134,7 @@ const UpdateUserModal = (props: IProps) => {
               },
             ]}
           >
-            <Input type="email" />
+            <Input type="email" disabled={dataUpdate ? true : false}/>
           </Form.Item>
 
           <Form.Item

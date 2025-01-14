@@ -57,7 +57,7 @@ const PlaylistPage = async () => {
       >
         <h3>Danh sách phát</h3>
         <Box sx={{ display: "flex", gap: "20px" }}>
-          <NewPlaylist />
+          <NewPlaylist playlists={playlists}/>
           <AddPlaylistTrack playlists={playlists} tracks={tracks} />
         </Box>
       </Box>
