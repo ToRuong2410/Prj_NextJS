@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import DownloadIcon from "@mui/icons-material/Download";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import axios from "axios";
 
+import { Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { sendRequest } from "@/utils/api";
+import { useToast } from "@/utils/toast";
 
 interface IProps {
   track: ITrackTop | null;
@@ -18,6 +19,8 @@ interface IProps {
 const LikeTrack = (props: IProps) => {
   const { track } = props;
   const { data: session } = useSession();
+
+  const toast = useToast();
   const router = useRouter();
 
   const [trackLike, setTrackLike] = useState<ITrackLike[] | null>(null);
@@ -75,6 +78,10 @@ const LikeTrack = (props: IProps) => {
   };
 
   const handleDownloadTrack = async () => {
+    if(!session){
+      toast.error("Vui lòng đăng nhập để tải bài hát");
+      return;
+    }
     if (track?.trackUrl) {
       try {
         const response = await axios.get(`/api?audio=${track.trackUrl}`, {

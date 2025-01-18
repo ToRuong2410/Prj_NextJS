@@ -15,8 +15,6 @@ const AppFooter = () => {
   const playerRef = useRef(null);
 
   useEffect(() => {
-    console.log('currentTrack.isPlaying', currentTrack.isPlaying);
-    
     if (currentTrack.isPlaying === true) {
       //@ts-ignore
       playerRef?.current?.audio?.current?.play();

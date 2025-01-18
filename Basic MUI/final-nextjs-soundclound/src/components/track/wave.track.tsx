@@ -146,7 +146,6 @@ const WaveTrack = (props: IProps) => {
     };
   }, [wavesurfer]);
 
-  // lỗi click thì phải???
   const onPlayClick = useCallback(() => {
     if (wavesurfer) {
       // Xảy ra bất đồng bộ ở pause và play nên phải dùng useEffect ở trên
@@ -187,20 +186,11 @@ const WaveTrack = (props: IProps) => {
   }, [currentTrack]);
 
   // Nếu phần footer chưa có thông tin thì cập nhật thông tin khi ấn vào wavetrack
-  // useEffect(() => {
-  //   if (track?._id && !currentTrack?._id) {
-  //     setCurrentTrack({ ...track, isPlaying: false });
-  //     // console.log("thay đổi dữ liệu bài nhạc");
-  //   }
-  // }, [track]);
-
-  // useEffect(() => {
-  //   if(wavesurfer && track) {
-  //     setTimeout(() => {
-  //       wavesurfer.play();
-  //     }, 2000);
-  //   }
-  // }, [wavesurfer])
+  useEffect(() => {
+    if (track?._id && !currentTrack?._id) {
+      setCurrentTrack({ ...track, isPlaying: false });
+    }
+  }, [track]);
 
   const handleIncreaseView = async () => {
     if (firstViewRef.current) {
@@ -261,7 +251,7 @@ const WaveTrack = (props: IProps) => {
                   if (track && wavesurfer) {
                     // Cứ ấn vào nút Play/Pause trên wavetrack thì nút play/pause dưới footer sẽ dừng
                     setCurrentTrack({
-                      ...track,
+                      ...currentTrack,
                       isPlaying: false,
                     });
                   }

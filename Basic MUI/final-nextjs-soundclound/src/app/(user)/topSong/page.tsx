@@ -1,10 +1,13 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Container } from "@mui/material";
+
 import TopSong from "@/components/top-songs/top.song";
-import { convertSlugUrl, sendRequest } from "@/utils/api";
-import { Box, Container, Divider } from "@mui/material";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import Link from "next/link";
+import { sendRequest } from "@/utils/api";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Top songs",
+  description: "Top songs",
+}
 
 const TopSongPage = async () => {
   const chills = await sendRequest<IBackendRes<ITrackTop[]>>({
