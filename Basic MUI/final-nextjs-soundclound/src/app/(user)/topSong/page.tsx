@@ -45,7 +45,7 @@ const TopSongPage = async () => {
 
   return (
     <Container>
-      <TopSong title={"Top 10 bài hát lượt nghe cao nhất"} data={allTracks} />
+      <TopSong title={"Top 10 bài hát cao nhất theo"} data={allTracks} />
     </Container>
   );
 };

@@ -1,26 +1,24 @@
 "use client";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
-import { Settings } from "react-slick";
 import {
   Box,
-  Button,
-  Divider,
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography
 } from "@mui/material";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Link from "next/link";
 import { convertSlugUrl } from "@/utils/api";
 import Image from "next/image";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useState } from "react";
+
 interface IProps {
   title: string;
   data: ITrackTop[];
@@ -28,11 +26,25 @@ interface IProps {
 
 const TopSong = (props: IProps) => {
   const { title, data } = props;
+  const [filter, setFilter] = useState<"countPlay" | "countLike">("countPlay");
 
-  // Sắp xếp láy 5 bài hát có lượt nghe cao nhất
-  const top10Tracks = data
-    .sort((a, b) => b.countPlay - a.countPlay)
-    .slice(0, 10);
+  // Hàm lọc top 10 bài hát
+  const getTopTracks = (tracks: ITrackTop[], sortBy: "countPlay" | "countLike", limit: number = 10) => {
+    if (!Array.isArray(tracks)) {
+      throw new Error("Invalid tracks data. Expected an array.");
+    }
+
+    return tracks
+      .sort((a, b) => b[sortBy] - a[sortBy])
+      .slice(0, limit);
+  };
+
+  // Lấy danh sách bài hát theo filter
+  const filteredTracks: ITrackTop[] = getTopTracks(data, filter, 10);
+
+  const handleFilterChange = ( event: SelectChangeEvent) => {
+    setFilter(event.target.value as "countPlay" | "countLike");
+  };
 
   return (
     <Box
@@ -52,7 +64,38 @@ const TopSong = (props: IProps) => {
         }
       }}
     >
-      <h2>{title}</h2>
+      <h2>{title} {filter == 'countPlay' ? 'lượt nghe' : 'lượt like'}</h2>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 4 }}>
+        <FormControl variant="standard" sx={{ width: '25%' }}>
+          <InputLabel id="demo-simple-select-label">Dựa theo</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+            onChange={handleFilterChange}
+            value={filter}
+          >
+            <MenuItem value={'countPlay'}>Lượt nghe</MenuItem>
+            <MenuItem value={'countLike'}>Lượt like</MenuItem>
+          </Select>
+        </FormControl>
+
+        {/* filter theo thể loại -> chưa update */}
+        {/* <FormControl variant="standard" sx={{ width: '25%' }}>
+          <InputLabel id="demo-simple-select-label">Album</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Age"
+          >
+            <MenuItem value={10}>Tất cả</MenuItem>
+            <MenuItem value={20}>CHILL</MenuItem>
+            <MenuItem value={20}>WORKOUT</MenuItem>
+            <MenuItem value={20}>PARTY</MenuItem>
+          </Select>
+        </FormControl> */}
+
+      </Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
@@ -63,7 +106,7 @@ const TopSong = (props: IProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {top10Tracks.map((track, index) => {
+            {filteredTracks.map((track, index) => {
               return (
                 <TableRow
                   key={index}
@@ -74,9 +117,8 @@ const TopSong = (props: IProps) => {
                     <Box>
                       <Link
                         style={{ textDecoration: "none" }}
-                        href={`/track/${convertSlugUrl(track.title)}-${
-                          track._id
-                        }.html?audio=${track.trackUrl}&id=${track._id}`}
+                        href={`/track/${convertSlugUrl(track.title)}-${track._id
+                          }.html?audio=${track.trackUrl}&id=${track._id}`}
                       >
                         <Box
                           sx={{
